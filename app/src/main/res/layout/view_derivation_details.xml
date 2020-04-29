@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/view_derivation_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bottom_sheet_rounded_drawable"
+    android:elevation="4dp"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="150dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <TextView
+        android:id="@+id/tvTitleBip32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/fragment_derivation_bip32"
+        style="@style/headerTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/btGenerate"
+        style="@style/whiteButtonStyle"
+        android:layout_width="100dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/fragment_derivation_generate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etBip32Path"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@null"
+        android:text="@string/default_div_path"
+        android:layout_width="0dp"
+        style="@style/normalTextView"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintEnd_toStartOf="@+id/btGenerate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btGenerate"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        tools:ignore="LabelFor" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/black_015"
+        app:layout_constraintEnd_toStartOf="@+id/btGenerate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etBip32Path"
+        app:layout_constraintBottom_toBottomOf="@+id/btGenerate" />
+
+    <TextView
+        android:id="@+id/tvXprvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_derivation_master_xprv"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+        style="@style/headerTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etBip32Path"/>
+
+    <TextView
+        android:id="@+id/tvXprv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="4dp"
+        android:background="?selectableItemBackground"
+        style="@style/normalTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvXprvTitle" />
+
+    <TextView
+        android:id="@+id/tvKeyRangeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/fragment_derivation_keys_range"
+        style="@style/headerTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvXprv"/>
+
+    <Button
+        android:id="@+id/btSetKeys"
+        android:layout_width="100dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/fragment_derivation_set"
+        style="@style/whiteButtonStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvKeyRangeTitle"/>
+
+    <EditText
+        android:id="@+id/etFromKey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginStart="16dp"
+        android:text="@string/default_keyrange_start"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btSetKeys"
+        app:layout_constraintBottom_toTopOf="@+id/view1"
+        app:layout_constraintEnd_toStartOf="@+id/tvOpenAngleBracket"
+        style="@style/normalTextView"/>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/black_015"
+        app:layout_constraintTop_toBottomOf="@+id/etFromKey"
+        app:layout_constraintBottom_toBottomOf="@+id/btSetKeys"
+        app:layout_constraintEnd_toEndOf="@id/etFromKey"
+        app:layout_constraintStart_toStartOf="@id/etFromKey"/>
+
+    <TextView
+        android:id="@+id/tvOpenAngleBracket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_derivation_open_angle_bracket"
+        style="@style/normalTextView"
+        android:textSize="18sp"
+        android:paddingBottom="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toTopOf="@id/etFromKey"
+        app:layout_constraintBottom_toBottomOf="@id/view1"
+        app:layout_constraintStart_toEndOf="@id/etFromKey"
+        app:layout_constraintEnd_toStartOf="@+id/etToKey"/>
+
+    <EditText
+        android:id="@+id/etToKey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginEnd="16dp"
+        android:text="@string/default_keyrange_end"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintEnd_toStartOf="@id/btSetKeys"
+        app:layout_constraintStart_toEndOf="@+id/tvOpenAngleBracket"
+        app:layout_constraintTop_toTopOf="@id/btSetKeys"
+        style="@style/normalTextView" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/black_015"
+        app:layout_constraintTop_toBottomOf="@+id/etToKey"
+        app:layout_constraintBottom_toBottomOf="@id/btSetKeys"
+        app:layout_constraintStart_toStartOf="@id/etToKey"
+        app:layout_constraintEnd_toEndOf="@id/etToKey" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvKeysList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/btSetKeys"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_view_key"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

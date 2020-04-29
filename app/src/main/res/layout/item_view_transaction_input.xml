@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chauthai.swipereveallayout.SwipeRevealLayout
+    android:id="@+id/slRootInput"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:dragEdge="right"
+    app:mode="same_level"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include
+        layout="@layout/view_delete_button"/>
+
+    <include
+        layout="@layout/view_input"/>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

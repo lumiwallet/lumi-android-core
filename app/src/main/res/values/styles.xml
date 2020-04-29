@@ -1,0 +1,81 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="blackButtonStyle" parent="AppTheme">
+        <item name="android:background">@drawable/black_button_background</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="whiteButtonStyle" parent="AppTheme">
+        <item name="android:background">@drawable/white_button_background</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="normalTextView" parent="AppTheme">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="inactiveTextView" parent="AppTheme">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textColor">@color/darkgray</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="linkTextView" parent="AppTheme">
+        <item name="android:textColor">@color/darkslategray</item>
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="headerTextView" parent="AppTheme">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="smallGrayTextView" parent="AppTheme">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/darkgray</item>
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+    </style>
+
+    <style name="smallBlackTextView" parent="AppTheme">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+    </style>
+
+    <style name="iosLabel" parent="AppTheme">
+        <item name="android:textColor">@color/ornflowerblue</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+    </style>
+
+</resources>

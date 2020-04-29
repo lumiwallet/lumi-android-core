@@ -1,0 +1,135 @@
+<resources>
+    <string name="app_name">Lumi-core</string>
+
+    <string name="support_email">hello@lumiwallet.com</string>
+
+    <string name="bitcoing_shortname">BTC</string>
+    <string name="satoshi_shortname">SAT</string>
+    <string name="default_div_path">44H/0H/0H/0</string>
+    <string name="default_keyrange_start">0</string>
+    <string name="default_keyrange_end">20</string>
+    <string name="default_error_message">error(</string>
+    <string name="zero_placeholder">0</string>
+    <string name="copied">copied</string>
+
+    <string name="fragment_main_title_mnemonic_phrase">Mnemonic phrase</string>
+    <string name="fragment_main_crate_mnemonic">Crate a new mnemonic</string>
+    <string name="fragment_main_import_mnemonic">Import you mnemonic</string>
+    <string name="fragment_main_title_create_transaction">Create transaction manually</string>
+    <string name="fragment_main_create_btc_tx">BTC transaction</string>
+    <string name="fragment_main_create_eos_tx">EOS transaction</string>
+    <string name="fragment_main_about">About Lumi</string>
+    <string name="fragment_main_generate">NIST SP 800–22</string>
+    <string name="bottom_sheet_mnemonic_words_title">Mnemonic words count</string>
+    <string name="bottom_sheet_mnemonic_words_done">Done</string>
+
+    <string name="bottom_sheet_import_mnemonic_import">Import</string>
+    <string name="bottom_sheet_import_mnemonic_title">Enter mnemonic phrase</string>
+    <string name="bottom_sheet_import_mnemonic_error">Wrong mnemonic phrase</string>
+
+    <string name="fragment_btc_transaction_change_address">Legacy bitcoin address for change</string>
+    <string name="fragment_btc_transaction_change_address_hint">BTC address</string>
+    <string name="fragment_btc_transaction_change_amount">Change amount %s BTC</string>
+    <string name="fragment_btc_transaction_fee_title">Fee per byte</string>
+    <string name="fragment_btc_transaction_fee_amount">Total fee %s SAT</string>
+    <string name="fragment_btc_transaction_build">Build</string>
+
+    <string name="fragment_eos_transaction_build">Build</string>
+    <string name="fragment_eos_transaction_permission">Permission</string>
+    <string name="fragment_eos_transaction_expiration">Expiration</string>
+    <string name="fragment_eos_transaction_bin">Bin</string>
+    <string name="fragment_eos_transaction_block_prefix">Reference block prefix</string>
+    <string name="fragment_eos_transaction_block_prefix_hint">EOS block prefix</string>
+    <string name="fragment_eos_transaction_block_num">Reference block num</string>
+    <string name="fragment_eos_transaction_block_num_hint">EOS block num</string>
+    <string name="fragment_eos_transaction_chain_id">Chain ID</string>
+    <string name="fragment_eos_transaction_chain_id_hint">EOS chain id</string>
+    <string name="fragment_eos_transaction_private_key">Private key</string>
+    <string name="fragment_eos_transaction_private_key_hint">Private key data</string>
+    <string name="fragment_eos_transaction_actor">Actor</string>
+    <string name="fragment_eos_transaction_memo">Memo</string>
+    <string name="fragment_eos_transaction_amount">Amount</string>
+    <string name="fragment_eos_transaction_address">Address</string>
+
+    <string name="view_inputs_header_title">Inputs</string>
+    <string name="view_inputs_header_add_button">Add input</string>
+
+    <string name="view_inputs_delete">Delete</string>
+    <string name="view_inputs_value">Value:</string>
+    <string name="view_inputs_address">Address:</string>
+    <string name="view_inputs_hash">Hash:</string>
+    <string name="view_inputs_script">Script:</string>
+
+    <string name="view_outputs_header_title">Outputs</string>
+    <string name="view_outputs_header_add_button">Add output</string>
+
+    <string name="view_outputs_amount">Amount:</string>
+    <string name="view_outputs_address">Address:</string>
+    <string name="view_outputs_delete">Delete</string>
+    
+    <string name="view_delete_button">Delete</string>
+
+    <string name="fragment_add_input_add_input">Add input</string>
+    <string name="fragment_add_input_address">Legacy bitcoin address</string>
+    <string name="fragment_add_input_address_hint">Enter bitcoin address</string>
+    <string name="fragment_add_input_amount">Amount in satoshi</string>
+    <string name="fragment_add_input_output_n">Output N</string>
+    <string name="fragment_add_input_scrip">Script data (hex)</string>
+    <string name="fragment_add_input_script_hint">Enter hex</string>
+    <string name="fragment_add_input_transaction_hash">Transaction hash</string>
+    <string name="fragment_add_input_hash_hint">Enter hash</string>
+    <string name="fragment_add_input_private_key">Private key data</string>
+    <string name="fragment_add_input_private_key_hint">Enter private key</string>
+
+    <string name="fragment_edit_input_save">save changes</string>
+
+    <string name="fragment_add_output_add_output">Add output</string>
+    <string name="fragment_add_output_address">Legacy bitcoin address</string>
+    <string name="fragment_add_output_address_hint">Enter bitcoin address</string>
+    <string name="fragment_add_output_amount">Amount in satoshi</string>
+
+    <string name="view_transaction_signed_title">BTC transaction</string>
+    <string name="view_transaction_signed_hash">hash:</string>
+    <string name="view_transaction_signed_raw_tx">raw tx:</string>
+    <string name="view_transaction_signed_share">Share</string>
+    <string name="view_transaction_signed_done">Ok, done</string>
+
+    <string name="fragment_derivation_mnemonic_phrase_title">Mnemonic phrase</string>
+    <string name="fragment_derivation_seed">Seed hex representation</string>
+    <string name="fragment_derivation_bip32">Bip32 path</string>
+    <string name="fragment_derivation_generate">Generate</string>
+    <string name="fragment_derivation_master_xprv">Master xprv</string>
+    <string name="fragment_derivation_keys_range">Keys in range</string>
+    <string name="fragment_derivation_set">Set</string>
+    <string name="fragment_derivation_open_angle_bracket">&lt;</string>
+    
+    <string name="view_key_sequence">Sequence:</string>
+    <string name="view_key_btc_address">Address BTC:</string>
+    <string name="view_key_eos_address">Address EOS:</string>
+    <string name="view_key_public">pub:</string>
+    <string name="view_key_private">priv:</string>
+
+    <string name="fragment_about_full_app_name">Lumi Wallet\nOpen source app</string>
+    <string name="fragment_about_release_date">Release date %s</string>
+    <string name="fragment_about_about_the_app">About the app</string>
+    <string name="fragment_about_our_website">Our website</string>
+    <string name="fragment_about_website">lumiwallet.com</string>
+    <string name="fragment_about_drop_us_a_line">Drop us a line</string>
+    <string name="fragment_about_follow">Follow us</string>
+    <string name="fragment_about_blog">Blog</string>
+    <string name="fragment_about_lumi_technologies">© 2020 LUMI WALLET</string>
+    
+    <string name="fragment_generate_length">Length</string>
+    <string name="fragment_generate_enter_length_hint">Enter length in bytes</string>
+    <string name="fragment_generate_generate">Generate</string>
+    <string name="fragment_generate_permission_denied">Permission denied</string>
+
+    <string name="view_eos_transaction_title">EOS transaction</string>
+    <string name="view_eos_transaction_packed_tx">Packed transaction:</string>
+    <string name="view_eos_transaction_signatures">Signatures:</string>
+    <string name="view_eos_transaction_share">Share</string>
+    <string name="view_eos_transaction_done">Ok, done</string>
+
+    <string name="fragment_about_description">The LumiCore library is an implementation of tools for working with Bitcoin and EOS. It allows to run the private keys derivation tree following the BIP44 standard and sign transactions. LumiCore is available under the MIT license.</string>
+
+</resources>

@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_toolbar_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvTitleMnemonicPhrase"
+        style="@style/headerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/fragment_main_title_mnemonic_phrase"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+
+    <TextView
+        android:id="@+id/tvCreateMnemonic"
+        style="@style/normalTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="?selectableItemBackground"
+        android:padding="16dp"
+        android:text="@string/fragment_main_crate_mnemonic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleMnemonicPhrase" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/black_015"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCreateMnemonic" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_icon_open"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCreateMnemonic"
+        app:layout_constraintEnd_toEndOf="@+id/tvCreateMnemonic"
+        app:layout_constraintTop_toTopOf="@+id/tvCreateMnemonic" />
+
+    <TextView
+        android:id="@+id/tvImportMnemonic"
+        style="@style/normalTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:padding="16dp"
+        android:text="@string/fragment_main_import_mnemonic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCreateMnemonic" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/black_015"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvImportMnemonic" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_icon_open"
+        app:layout_constraintBottom_toBottomOf="@+id/tvImportMnemonic"
+        app:layout_constraintEnd_toEndOf="@+id/tvImportMnemonic"
+        app:layout_constraintTop_toTopOf="@+id/tvImportMnemonic" />
+
+    <TextView
+        android:id="@+id/tvTitleCreateTransaction"
+        style="@style/headerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/fragment_main_title_create_transaction"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvImportMnemonic" />
+
+    <TextView
+        android:id="@+id/tvCreateBtcTx"
+        style="@style/normalTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="?selectableItemBackground"
+        android:padding="16dp"
+        android:text="@string/fragment_main_create_btc_tx"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleCreateTransaction" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/black_015"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCreateBtcTx" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_icon_open"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCreateBtcTx"
+        app:layout_constraintEnd_toEndOf="@+id/tvCreateBtcTx"
+        app:layout_constraintTop_toTopOf="@+id/tvCreateBtcTx"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvCreateEosTx"
+        style="@style/normalTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="?selectableItemBackground"
+        android:padding="16dp"
+        android:text="@string/fragment_main_create_eos_tx"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCreateBtcTx" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/black_015"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCreateEosTx" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_icon_open"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCreateEosTx"
+        app:layout_constraintEnd_toEndOf="@+id/tvCreateEosTx"
+        app:layout_constraintTop_toTopOf="@+id/tvCreateEosTx"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvGenerate"
+        style="@style/normalTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="?selectableItemBackground"
+        android:padding="16dp"
+        android:text="@string/fragment_main_generate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCreateEosTx" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/black_015"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvGenerate" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_icon_open"
+        app:layout_constraintBottom_toBottomOf="@+id/tvGenerate"
+        app:layout_constraintEnd_toEndOf="@+id/tvGenerate"
+        app:layout_constraintTop_toTopOf="@+id/tvGenerate"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvAbout"
+        style="@style/normalTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="?selectableItemBackground"
+        android:padding="16dp"
+        android:text="@string/fragment_main_about"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvGenerate" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_icon_open"
+        app:layout_constraintBottom_toBottomOf="@+id/tvAbout"
+        app:layout_constraintEnd_toEndOf="@+id/tvAbout"
+        app:layout_constraintTop_toTopOf="@+id/tvAbout"
+        tools:ignore="ContentDescription" />
+
+    <View
+        android:id="@+id/bottomSheetBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/clBottomSheetWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/view_select_mnemonic_words" />
+
+        <include layout="@layout/view_import_mnemonic" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

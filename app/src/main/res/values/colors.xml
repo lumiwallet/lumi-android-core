@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#000000</color>
+
+    <color name="ornflowerblue">#548ad4</color>
+    <color name="darkslategray">#154E79</color>
+    <color name="tomato">#EB5757</color>
+
+    <color name="black">#000000</color>
+    <color name="black_015">#26000000</color>
+    <color name="darkgray">#999999</color>
+    <color name="silver">#bdbdbd</color>
+    <color name="white">#ffffff</color>
+    <color name="transparent">#ffffffff</color>
+</resources>
