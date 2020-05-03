@@ -28,7 +28,7 @@ allprojects {
 
 ```
 dependencies {
-  implementation 'com.github.lumiwallet:lumi-android-core:1.0.0'
+  implementation 'com.github.lumiwallet:lumi-android-core:v1.0.0'
 }
 ```
 
