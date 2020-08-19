@@ -136,7 +136,7 @@ open class ECKey {
         field = value
     }
 
-    var pubKeyHash: ByteArray? = null
+    var pubKeyHash: ByteArray = byteArrayOf()
         get() = Utils.sha256hash160(this.pub.encoded)
         private set
 

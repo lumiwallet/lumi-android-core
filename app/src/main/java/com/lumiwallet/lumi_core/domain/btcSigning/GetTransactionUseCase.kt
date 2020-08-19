@@ -2,7 +2,6 @@ package com.lumiwallet.lumi_core.domain.btcSigning
 
 import com.lumiwallet.lumi_core.R
 import com.lumiwallet.lumi_core.domain.entity.HeaderViewModel
-import com.lumiwallet.lumi_core.domain.entity.Input
 import com.lumiwallet.lumi_core.domain.entity.InputViewModel
 import com.lumiwallet.lumi_core.domain.entity.Output
 import com.lumiwallet.lumi_core.domain.repository.BtcTransactionRepository
@@ -20,7 +19,7 @@ class GetTransactionUseCase constructor(
         Observable.combineLatest(
             txRepository.getInputs(),
             txRepository.getOutputs(),
-            BiFunction<MutableList<Input>, MutableList<Output>, MutableList<BtcTxAdapter.ViewItem>> { inputs, outputs ->
+            BiFunction { inputs, outputs ->
                 val viewItems: MutableList<BtcTxAdapter.ViewItem> = mutableListOf()
                 viewItems.add(
                     BtcTxAdapter.ViewItem(
@@ -37,9 +36,9 @@ class GetTransactionUseCase constructor(
                         type = BtcTxAdapter.ViewItem.TYPE_INPUT,
                         input = InputViewModel(
                             input.address,
-                            input.unspentOutput.value.toString(),
-                            input.unspentOutput.script,
-                            input.unspentOutput.txHash
+                            input.value.toString(),
+                            input.script,
+                            input.txHash
                         )
                     )
                 })

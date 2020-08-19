@@ -31,10 +31,10 @@ class EditInputPresenter(
             .subscribe({ input ->
                 viewState.showInput(
                     input.address,
-                    input.unspentOutput.value.toString(),
-                    input.unspentOutput.txOutputN.toString(),
-                    input.unspentOutput.txHash,
-                    input.unspentOutput.script,
+                    input.value.toString(),
+                    input.txOutputN.toString(),
+                    input.txHash,
+                    input.script,
                     input.keyAsWif
                 )
             }) {

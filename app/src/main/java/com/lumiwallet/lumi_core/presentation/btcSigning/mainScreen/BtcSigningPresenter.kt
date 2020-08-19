@@ -103,7 +103,7 @@ class BtcSigningPresenter : BasePresenter<BtcSigningView>() {
         signBtcTransaction()
             .androidAsync()
             .subscribe({
-                viewState.showRawTransaction(it.hash, it.rawTransaction)
+                viewState.showRawTransaction(it.hash, it.rawTx)
             }) {
                 it.printStackTrace()
                 viewState.showMessage(it.message)

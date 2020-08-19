@@ -4,6 +4,7 @@ import android.app.Application
 import com.lumiwallet.lumi_core.di.AppComponent
 import com.lumiwallet.lumi_core.di.AppContextModule
 import com.lumiwallet.lumi_core.di.DaggerAppComponent
+import com.lumiwallet.lumi_core.presentation.bchSigning.di.BchSigningComponent
 import com.lumiwallet.lumi_core.presentation.btcSigning.di.BtcSigningComponent
 
 class App : Application() {
@@ -16,6 +17,10 @@ class App : Application() {
         var btcSigningComponent: BtcSigningComponent? = null
             private set
 
+        @JvmStatic
+        var bchSigningComponent: BchSigningComponent? = null
+            private set
+
         fun getOrCreateBtcSigningComponent(): BtcSigningComponent {
             if (btcSigningComponent == null)
                 btcSigningComponent = appComponent.btcSigningComponent()
@@ -24,6 +29,16 @@ class App : Application() {
 
         fun destroyBtcSigningComponent() {
             btcSigningComponent = null
+        }
+
+        fun getOrCreateBchSigningComponent(): BchSigningComponent {
+            if (bchSigningComponent == null)
+                bchSigningComponent = appComponent.bchSigningComponent()
+            return bchSigningComponent!!
+        }
+
+        fun destroyBchSigningComponent() {
+            bchSigningComponent = null
         }
     }
 

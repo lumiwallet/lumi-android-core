@@ -1,5 +1,6 @@
 package com.lumiwallet.lumi_core.di
 
+import com.lumiwallet.lumi_core.presentation.bchSigning.di.BchSigningComponent
 import com.lumiwallet.lumi_core.presentation.btcSigning.di.BtcSigningComponent
 import com.lumiwallet.lumi_core.presentation.derivationScreen.DerivationPresenter
 import com.lumiwallet.lumi_core.presentation.eosSigning.EosSigningPresenter
@@ -22,4 +23,5 @@ interface AppComponent {
     fun inject(generateRandomPresenter: GenerateRandomPresenter)
 
     fun btcSigningComponent(): BtcSigningComponent
+    fun bchSigningComponent(): BchSigningComponent
 }

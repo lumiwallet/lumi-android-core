@@ -6,7 +6,7 @@
 
 # LumiCore
 
-The LumiCore library is a Kotlin implementation of tools for working with cryptocurrency transactions, such as Bitcoin and EOS.
+The LumiCore library is a Kotlin implementation of tools for working with cryptocurrency transactions, such as Bitcoin, Bitcoin Cash and EOS.
 
 ## Requirements
 
@@ -28,7 +28,7 @@ allprojects {
 
 ```
 dependencies {
-  implementation 'com.github.lumiwallet:lumi-android-core:v1.0.0'
+  implementation 'com.github.lumiwallet:lumi-android-core:v1.1.0'
 }
 ```
 

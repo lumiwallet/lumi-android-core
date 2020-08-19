@@ -19,6 +19,10 @@ public class UInt {
         return new UInt(value);
     }
 
+    public static UInt of(byte value) {
+        return new UInt(value);
+    }
+
     public byte[] asLitEndBytes() {
         return litEndBytes;
     }

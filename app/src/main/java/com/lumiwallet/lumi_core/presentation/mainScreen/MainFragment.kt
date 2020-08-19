@@ -104,6 +104,10 @@ class MainFragment : BaseFragment(), MainView {
             navigateToEosSigningFragment()
         }
 
+        tvCreateBchTx.setOnClickListener {
+            navigateToBchSigningFragment()
+        }
+
         tvAbout.setOnClickListener {
             presenter.onAboutClicked()
         }

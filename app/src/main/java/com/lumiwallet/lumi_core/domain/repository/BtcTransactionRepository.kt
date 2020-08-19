@@ -1,8 +1,8 @@
 package com.lumiwallet.lumi_core.domain.repository
 
-import com.lumiwallet.android.core.bitcoin.transaction.Transaction
 import com.lumiwallet.lumi_core.domain.entity.Input
 import com.lumiwallet.lumi_core.domain.entity.Output
+import com.lumiwallet.lumi_core.domain.entity.TransactionDataModel
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -23,6 +23,6 @@ interface BtcTransactionRepository {
     fun setFeePerByte(fee: Long): Completable
     fun getFeePerByte(): Single<Long>
 
-    fun sign(): Single<Transaction>
+    fun sign(): Single<TransactionDataModel>
 
 }

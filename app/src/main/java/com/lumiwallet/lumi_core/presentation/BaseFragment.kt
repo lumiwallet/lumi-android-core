@@ -34,6 +34,10 @@ open class BaseFragment : MvpAppCompatFragment(), BaseMvpView {
         navigator?.navigateToEosSigningFragment()
     }
 
+    override fun navigateToBchSigningFragment() {
+        navigator?.navigateToBchSigningFragment()
+    }
+
     override fun navigateToAddInputFragment() {
         navigator?.navigateToAddInputFragment()
     }
@@ -48,6 +52,22 @@ open class BaseFragment : MvpAppCompatFragment(), BaseMvpView {
 
     override fun navigateToEditOutputFragment(output: Output) {
         navigator?.navigateToEditOutputFragment(output)
+    }
+
+    override fun navigateToAddBchInputFragment() {
+        navigator?.navigateToAddBchInputFragment()
+    }
+
+    override fun navigateToAddBchOutputFragment() {
+        navigator?.navigateToAddBchOutputFragment()
+    }
+
+    override fun navigateToEditBchInputFragment(input: InputViewModel) {
+        navigator?.navigateToEditBchInputFragment(input)
+    }
+
+    override fun navigateToEditBchOutputFragment(output: Output) {
+        navigator?.navigateToEditBchOutputFragment(output)
     }
 
     override fun navigateToGenerateRandomBytesFragment() {

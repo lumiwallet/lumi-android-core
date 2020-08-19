@@ -18,6 +18,7 @@
     <string name="fragment_main_title_create_transaction">Create transaction manually</string>
     <string name="fragment_main_create_btc_tx">BTC transaction</string>
     <string name="fragment_main_create_eos_tx">EOS transaction</string>
+    <string name="fragment_main_create_bch_tx">BCH transaction</string>
     <string name="fragment_main_about">About Lumi</string>
     <string name="fragment_main_generate">NIST SP 800–22</string>
     <string name="bottom_sheet_mnemonic_words_title">Mnemonic words count</string>
@@ -130,6 +131,6 @@
     <string name="view_eos_transaction_share">Share</string>
     <string name="view_eos_transaction_done">Ok, done</string>
 
-    <string name="fragment_about_description">The LumiCore library is an implementation of tools for working with Bitcoin and EOS. It allows to run the private keys derivation tree following the BIP44 standard and sign transactions. LumiCore is available under the MIT license.</string>
+    <string name="fragment_about_description">The LumiCore library is an implementation of tools for working with Bitcoin, Bitcoin Cash and EOS. It allows to run the private keys derivation tree following the BIP44 standard and sign transactions. LumiCore is available under the MIT license.</string>
 
 </resources>

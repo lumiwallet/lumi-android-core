@@ -7,6 +7,7 @@ import com.lumiwallet.lumi_core.R
 import com.lumiwallet.lumi_core.domain.entity.InputViewModel
 import com.lumiwallet.lumi_core.domain.entity.Output
 import com.lumiwallet.lumi_core.presentation.aboutScreen.AboutFragment
+import com.lumiwallet.lumi_core.presentation.bchSigning.mainScreen.BchSigningFragment
 import com.lumiwallet.lumi_core.presentation.btcSigning.addInputScreen.AddInputFragment
 import com.lumiwallet.lumi_core.presentation.btcSigning.addOutputScreen.AddOutputFragment
 import com.lumiwallet.lumi_core.presentation.btcSigning.editInputScreen.EditInputFragment
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity(),
         navigateToFragment(EosSigningFragment())
     }
 
+    override fun navigateToBchSigningFragment() {
+        navigateToFragment(BchSigningFragment())
+    }
+
     override fun navigateToGenerateRandomBytesFragment() {
         navigateToFragment(GenerateRandomFragment())
     }
@@ -72,6 +77,22 @@ class MainActivity : AppCompatActivity(),
 
     override fun navigateToEditOutputFragment(output: Output) {
         navigateToFragment(EditOutputFragment(output))
+    }
+
+    override fun navigateToAddBchInputFragment() {
+        navigateToFragment(com.lumiwallet.lumi_core.presentation.bchSigning.addInputScreen.AddInputFragment())
+    }
+
+    override fun navigateToAddBchOutputFragment() {
+        navigateToFragment(com.lumiwallet.lumi_core.presentation.bchSigning.addOutputScreen.AddOutputFragment())
+    }
+
+    override fun navigateToEditBchInputFragment(input: InputViewModel) {
+        navigateToFragment(com.lumiwallet.lumi_core.presentation.bchSigning.editInputScreen.EditInputFragment(input))
+    }
+
+    override fun navigateToEditBchOutputFragment(output: Output) {
+        navigateToFragment(com.lumiwallet.lumi_core.presentation.bchSigning.editOutputScreen.EditOutputFragment(output))
     }
 
     private fun navigateToFragment(

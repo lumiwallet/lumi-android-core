@@ -16,8 +16,8 @@ class GetInputUseCase(
         .map { inputs ->
             inputs.find {
                 it.address == inputViewModel.address &&
-                        it.unspentOutput.script == inputViewModel.script &&
-                        it.unspentOutput.txHash == inputViewModel.txHash
+                        it.script == inputViewModel.script &&
+                        it.txHash == inputViewModel.txHash
             } ?: throw NullPointerException()
         }
 }

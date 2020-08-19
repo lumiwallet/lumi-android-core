@@ -1,9 +1,10 @@
 package com.lumiwallet.lumi_core.domain.entity
 
-import com.lumiwallet.android.core.bitcoin.transaction.UnspentOutput
-
 class Input (
-    var unspentOutput: UnspentOutput,
+    var txHash: String,
+    var txOutputN: Int,
+    var script: String,
+    var value: Long,
     var address: String,
     var keyAsWif: String
 )

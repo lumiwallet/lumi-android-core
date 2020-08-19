@@ -1,10 +1,12 @@
 package com.lumiwallet.lumi_core.model
 
-import com.lumiwallet.android.core.bitcoin.transaction.Transaction
+import com.lumiwallet.android.core.bitcoin.core.PrivateKey
 import com.lumiwallet.android.core.bitcoin.transaction.TransactionBuilder
+import com.lumiwallet.android.core.bitcoin.transaction.UnspentOutput
 import com.lumiwallet.lumi_core.domain.btcSigning.CalculateFeeUseCase
 import com.lumiwallet.lumi_core.domain.entity.Input
 import com.lumiwallet.lumi_core.domain.entity.Output
+import com.lumiwallet.lumi_core.domain.entity.TransactionDataModel
 import com.lumiwallet.lumi_core.domain.repository.BtcTransactionRepository
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -40,7 +42,7 @@ class BtcTransactionRepository : BtcTransactionRepository {
 
     override fun removeInput(script: String): Completable = Completable.fromCallable {
         val input = inputs.find {
-            it.unspentOutput.script == script
+            it.script == script
         }
         inputs.remove(input!!)
         inputsSubject.onNext(inputs)
@@ -69,10 +71,18 @@ class BtcTransactionRepository : BtcTransactionRepository {
 
     override fun getFeePerByte(): Single<Long> = Single.just(feePerByte)
 
-    override fun sign(): Single<Transaction> = Single.fromCallable {
+    override fun sign(): Single<TransactionDataModel> = Single.fromCallable {
         val transactionBuilder = TransactionBuilder.create()
         for (input in inputs) {
-            transactionBuilder.from(input.unspentOutput)
+            transactionBuilder.from(
+                UnspentOutput(
+                    input.txHash,
+                    input.txOutputN,
+                    input.script,
+                    input.value,
+                    PrivateKey.ofWif(input.keyAsWif)
+                )
+            )
         }
         for (output in outputs) {
             transactionBuilder.to(output.address, output.amount)
@@ -80,6 +90,8 @@ class BtcTransactionRepository : BtcTransactionRepository {
         transactionBuilder.withFee(
             CalculateFeeUseCase.getTransactionSize(inputs.size, outputs.size) * feePerByte
         )
-        transactionBuilder.build()
+        transactionBuilder.build().let {
+            TransactionDataModel(it.hash, it.rawTransaction)
+        }
     }
 }
