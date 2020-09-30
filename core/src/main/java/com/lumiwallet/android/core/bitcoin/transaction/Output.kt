@@ -1,54 +1,56 @@
 package com.lumiwallet.android.core.bitcoin.transaction
 
 import com.lumiwallet.android.core.bitcoin.constant.ErrorMessages
+import com.lumiwallet.android.core.bitcoin.core.SegwitAddress
+import com.lumiwallet.android.core.bitcoin.params.MainNetParams
+import com.lumiwallet.android.core.bitcoin.script.ScriptType
 import com.lumiwallet.android.core.bitcoin.types.ULong
 import com.lumiwallet.android.core.bitcoin.types.VarInt
 import com.lumiwallet.android.core.bitcoin.util.ByteBuffer
 import com.lumiwallet.android.core.bitcoin.util.ValidationUtils.isBase58
 import com.lumiwallet.android.core.bitcoin.util.ValidationUtils.isEmpty
 import com.lumiwallet.android.core.utils.Base58
-import com.lumiwallet.android.core.utils.Sha256Hash
-import org.bouncycastle.util.encoders.Hex
-import java.util.*
+import com.lumiwallet.android.core.utils.hex
+
 
 enum class OutputType(val desc: String) {
     CUSTOM("Custom"),
     CHANGE("Change")
 }
 
-
 internal class Output(
-        val satoshi: Long,
-        private val destination: String,
-        private val type: OutputType
+    val satoshi: Long, // amount
+    private val destination: String,
+    private val type: OutputType
 ) {
 
     private val decodedAddress: ByteArray
+    private val addressType: ScriptType
 
     private val lockingScript: ByteArray
-        get() = ScriptPubKeyProducer.produceScript(decodedAddress[0], decodedAddress.copyOfRange(1, decodedAddress.size))
+        get() = ScriptPubKeyProducer.produceScript(decodedAddress, addressType)
 
     init {
         validateOutputData(satoshi, destination)
-        this.decodedAddress = decodeAndValidateAddress(destination)
+        this.addressType = decodeAddressType(destination)
+        this.decodedAddress = decodeAndValidateAddress(destination, addressType)
     }
 
     fun serializeForSigHash(): ByteArray {
         val lockingScript = lockingScript
-        val serialized = ByteBuffer().apply {
+        return ByteBuffer().apply {
             append(*ULong.of(satoshi).asLitEndBytes())
             append(*VarInt.of(lockingScript.size.toLong()).asLitEndBytes())
             append(*lockingScript)
         }
-
-        return serialized.bytes()
+            .bytes
     }
 
     fun fillTransaction(transaction: Transaction) {
-        transaction.addHeader("   Output (${type.desc})")
-        transaction.addData("      Satoshi", ULong.of(satoshi).toString())
-        transaction.addData("      Lock length", VarInt.of(lockingScript.size.toLong()).toString())
-        transaction.addData("      Lock", Hex.toHexString(lockingScript))
+        transaction.addHeader(Transaction.TxPart.OUTPUT)
+        transaction.addData(Transaction.TxPart.AMOUNT, ULong.of(satoshi).toString())
+        transaction.addData(Transaction.TxPart.LOCK_LENGTH, VarInt.of(lockingScript.size.toLong()).toString())
+        transaction.addData(Transaction.TxPart.LOCK, lockingScript.hex)
     }
 
     override fun toString(): String {
@@ -68,31 +70,27 @@ internal class Output(
 
     private fun validateDestinationAddress(destination: String) {
         require(!isEmpty(destination)) { ErrorMessages.OUTPUT_ADDRESS_EMPTY }
-        require(isBase58(destination)) { ErrorMessages.OUTPUT_ADDRESS_NOT_BASE_58 }
 
-        val prefixP2PKH = listOf('1')
-        val prefixP2SH = listOf('3')
-        val prefix = destination[0]
-
-        require(!(!prefixP2PKH.contains(prefix) && !prefixP2SH.contains(prefix))) {
-            String.format(ErrorMessages.OUTPUT_ADDRESS_WRONG_PREFIX, prefixP2PKH, prefixP2SH)
-        }
+        require(
+            destination.startsWith(MainNetParams.segwitAddressHrp!!) ||
+                    Base58.decodeChecked(destination)[0] == MainNetParams.addressHeader.toByte() ||
+                    Base58.decodeChecked(destination)[0] == MainNetParams.p2SHHeader.toByte()
+        ) { ErrorMessages.OUTPUT_ADDRESS_WRONG_PREFIX }
     }
 
-    private fun decodeAndValidateAddress(base58: String): ByteArray {
+    private fun decodeAddressType(address: String): ScriptType =
+        ScriptType.fromAddressPrefix(address)
 
-        val decoded = Base58.decode(base58)
-
-        val payload = Arrays.copyOfRange(decoded, 0, decoded.size - 4)
-        val checksum = Arrays.copyOfRange(decoded, decoded.size - 4, decoded.size)
-
-        val shaOfSha = Sha256Hash.hashTwice(payload) ?: byteArrayOf()
-
-        for (i in 0..3) {
-            require(shaOfSha[i] == checksum[i]) { "Wrong checksum" }
+    private fun decodeAndValidateAddress(address: String, addressType: ScriptType): ByteArray =
+        when (addressType) {
+            ScriptType.P2WPKH -> {
+                SegwitAddress.fromBech32(MainNetParams, address).witnessProgram
+            }
+            ScriptType.P2PKH, ScriptType.P2SH -> {
+                require(isBase58(destination)) { ErrorMessages.OUTPUT_ADDRESS_NOT_BASE_58 }
+                Base58.decodeChecked(address).drop(1).toByteArray()
+            }
+            else ->
+                throw IllegalArgumentException(ErrorMessages.OUTPUT_ADDRESS_WRONG_PREFIX)
         }
-
-        return payload
-
-    }
 }

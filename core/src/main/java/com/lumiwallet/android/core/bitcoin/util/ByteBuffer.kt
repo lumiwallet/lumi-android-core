@@ -7,6 +7,14 @@ class ByteBuffer(vararg bytes: Byte) {
 
     private var buffer = ByteArrayOutputStream()
 
+    var size: Int = 0
+        get() = buffer.size()
+        private set
+
+    var bytes: ByteArray = byteArrayOf()
+        get() = buffer.toByteArray()
+        private set
+
     init {
         buffer = ByteArrayOutputStream()
         append(*bytes)

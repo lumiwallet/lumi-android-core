@@ -7,18 +7,18 @@ import com.lumiwallet.android.core.bitcoin.types.OpSize
 import com.lumiwallet.android.core.bitcoin.types.UInt
 import com.lumiwallet.android.core.bitcoin.types.VarInt
 import com.lumiwallet.android.core.bitcoin.util.ByteBuffer
-import com.lumiwallet.android.core.bitcoin.util.HexUtils
 import com.lumiwallet.android.core.bitcoin.util.ValidationUtils.isEmpty
 import com.lumiwallet.android.core.bitcoin.util.ValidationUtils.isHexString
 import com.lumiwallet.android.core.bitcoin.util.ValidationUtils.isTransactionId
-import org.bouncycastle.util.encoders.Hex
+import com.lumiwallet.android.core.utils.hex
+import com.lumiwallet.android.core.utils.safeToByteArray
 
 internal class Input(
-        private val transaction: String,
-        val index: Int,
-        val lock: String,
-        val satoshi: Long,
-        val privateKey: PrivateKey
+    private val transaction: String,
+    val index: Int,
+    val lock: String,
+    val satoshi: Long,
+    val privateKey: PrivateKey
 ) {
 
     companion object {
@@ -27,35 +27,34 @@ internal class Input(
     }
 
     val transactionHashBytesLitEnd: ByteArray
-        get() = ByteBuffer(*HexUtils.asBytes(transaction)).bytesReversed()
-
     val isSegWit: Boolean
-        get() = ScriptType.forLock(lock).isSegWit()
-
-    val sequence: UInt
-        get() = SEQUENCE
+    var sequence: UInt
 
     init {
         validateInputData(transaction, index, lock, satoshi)
+        transactionHashBytesLitEnd = ByteBuffer(*transaction.safeToByteArray()).bytesReversed()
+        isSegWit = ScriptType.forLock(lock).isSegWit()
+        sequence = SEQUENCE
     }
 
-    fun fillTransaction(sigHash: ByteArray, transaction: Transaction) {
-        val segWit = isSegWit
+    fun fillTransaction(sigHash: ByteArray, transaction: Transaction, scriptType: ScriptType) {
+        transaction.addHeader(Transaction.TxPart.INPUT)
 
-        transaction.addHeader(if (segWit) "   Input (Segwit)" else "   Input")
-
-        val unlocking = ScriptSigProducer.produceScriptSig(segWit, sigHash, privateKey)
-        transaction.addData("      Transaction out", Hex.toHexString(transactionHashBytesLitEnd))
-        transaction.addData("      Tout index", UInt.of(index).toString())
-        transaction.addData("      Unlock length", Hex.toHexString(VarInt.of(unlocking.size.toLong()).asLitEndBytes()))
-        transaction.addData("      Unlock", Hex.toHexString(unlocking))
-        transaction.addData("      Sequence", SEQUENCE.toString())
+        val unlocking = ScriptSigProducer.produceScriptSig(sigHash, privateKey, scriptType)
+        transaction.addData(Transaction.TxPart.TRANSACTION_OUT, transactionHashBytesLitEnd.hex)
+        transaction.addData(Transaction.TxPart.TOUT_INDEX, UInt.of(index).toString())
+        transaction.addData(Transaction.TxPart.UNLOCK_LENGTH, VarInt.of(unlocking.size.toLong()).asLitEndBytes().hex)
+        transaction.addData(Transaction.TxPart.UNLOCK, unlocking.hex)
+        transaction.addData(Transaction.TxPart.SEQUENCE, SEQUENCE.toString())
     }
 
     fun getWitness(sigHash: ByteArray): ByteArray =
-        WitnessProducer.produceWitness(isSegWit, sigHash, privateKey)
+        if (isSegWit)
+            WitnessProducer.produceWitness(sigHash, privateKey)
+        else
+            byteArrayOf(0x00.toByte())
 
-    override fun toString(): String = "$transaction $index $lock $satoshi"
+    override fun toString(): String = "$transaction\n$index\n$lock\n$satoshi"
 
     private fun validateInputData(transaction: String, index: Int, lock: String, satoshi: Long) {
         validateTransactionId(transaction)
@@ -76,23 +75,37 @@ internal class Input(
     private fun validateLockingScript(lock: String) {
         require(!isEmpty(lock)) { ErrorMessages.INPUT_LOCK_EMPTY }
         require(isHexString(lock)) { ErrorMessages.INPUT_LOCK_NOT_HEX }
+        val lockBytes = lock.safeToByteArray()
         when (ScriptType.forLock(lock)) {
             ScriptType.P2PKH -> {
-                val lockBytes = HexUtils.asBytes(lock)
                 val pubKeyHashSize = OpSize.ofByte(lockBytes[2])
-                require(pubKeyHashSize.size.toInt() == lockBytes.size - 5) { String.format(ErrorMessages.INPUT_WRONG_PKH_SIZE, lock) }
+                require(pubKeyHashSize.toInt() == lockBytes.size - 5) {
+                    String.format(ErrorMessages.INPUT_WRONG_PKH_SIZE, lock)
+                }
             }
             ScriptType.P2SH -> {
-                val lockBytes = HexUtils.asBytes(lock)
                 val pubKeyHashSize = OpSize.ofByte(lockBytes[1])
-                require(pubKeyHashSize.size.toInt() == lockBytes.size - 3) { String.format(ErrorMessages.INPUT_WRONG_RS_SIZE, lock) }
+                require(pubKeyHashSize.toInt() == lockBytes.size - 3) {
+                    String.format(ErrorMessages.INPUT_WRONG_RS_SIZE, lock)
+                }
             }
-            else -> throw IllegalArgumentException("Provided locking script is not P2PKH or P2SH [$lock]")
+            ScriptType.P2WPKH -> {
+                val pubKeyHash = privateKey.key.pubKeyHash
+                require(lockBytes[0] == 0x00.toByte()) {
+                    String.format(ErrorMessages.INPUT_LOCK_WRONG_FORMAT, lock)
+                }
+                require(OpSize.ofByte(lockBytes[1]).toInt() == pubKeyHash.size) {
+                    String.format(ErrorMessages.INPUT_WRONG_WPKH_SIZE, lock)
+                }
+                require(lockBytes.drop(2).toByteArray().contentEquals(pubKeyHash)) {
+                    String.format(ErrorMessages.INPUT_LOCK_WRONG_FORMAT, lock)
+                }
+            }
+            else -> throw IllegalArgumentException("Provided locking script is not P2PKH, P2WPKH or P2SH [$lock]")
         }
     }
 
     private fun validateAmount(satoshi: Long) {
         require(satoshi > 0) { ErrorMessages.INPUT_AMOUNT_NOT_POSITIVE }
     }
-
 }

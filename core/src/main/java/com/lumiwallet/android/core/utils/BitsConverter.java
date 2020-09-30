@@ -1,16 +1,18 @@
-package com.lumiwallet.android.core.bitcoin.core;
+package com.lumiwallet.android.core.utils;
+
+import com.lumiwallet.android.core.bitcoin.core.AddressFormatException;
 
 import java.io.ByteArrayOutputStream;
 
-public class SegwitAddressUtils {
+public class BitsConverter {
 
-    static byte[] convertBits(
-            final byte[] in,
-            final int inStart,
-            final int inLen,
-            final int fromBits,
-            final int toBits,
-            final boolean pad
+    public static byte[] convertBits(
+        final byte[] in,
+        final int inStart,
+        final int inLen,
+        final int fromBits,
+        final int toBits,
+        final boolean pad
     ) throws AddressFormatException {
         int acc = 0;
         int bits = 0;

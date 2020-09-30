@@ -2,39 +2,48 @@ package com.lumiwallet.android.core.bitcoin.transaction
 
 import com.lumiwallet.android.core.bitcoin.constant.ErrorMessages
 import com.lumiwallet.android.core.bitcoin.constant.OpCodes
+import com.lumiwallet.android.core.bitcoin.script.ScriptType
 import com.lumiwallet.android.core.bitcoin.types.OpSize
 import com.lumiwallet.android.core.bitcoin.util.ByteBuffer
 
 object ScriptPubKeyProducer {
 
     fun produceScript(
-            prefix: Byte,
-            hash: ByteArray
-    ): ByteArray {
-        if (prefix == 0x00.toByte()) {
-            //P2PKH
-            val lockingScript = ByteBuffer()
-            lockingScript.append(OpCodes.DUP, OpCodes.HASH160)
-            lockingScript.append(OpSize.ofInt(hash.size).size)
-            lockingScript.append(*hash)
-            lockingScript.append(OpCodes.EQUALVERIFY, OpCodes.CHECKSIG)
-            return lockingScript.bytes()
-
-        } else if (prefix == 0x05.toByte()) {
-            //P2SH
-            val lockingScript = ByteBuffer()
-            lockingScript.append(OpCodes.HASH160)
-            lockingScript.append(OpSize.ofInt(hash.size).size)
-            lockingScript.append(*hash)
-            lockingScript.append(OpCodes.EQUAL)
-            return lockingScript.bytes()
-
+        hash: ByteArray,
+        type: ScriptType
+    ): ByteArray = when (type) {
+        ScriptType.P2SH -> {
+            ByteBuffer(
+                OpCodes.HASH160,
+                OpSize.ofInt(hash.size),
+                *hash,
+                OpCodes.EQUAL
+            )
+                .bytes
         }
-
-        throw IllegalArgumentException(String.format(ErrorMessages.SPK_UNSUPPORTED_PRODUCER, prefix))
+        ScriptType.P2PKH -> {
+            ByteBuffer(
+                OpCodes.DUP,
+                OpCodes.HASH160,
+                OpSize.ofInt(hash.size),
+                *hash,
+                OpCodes.EQUALVERIFY,
+                OpCodes.CHECKSIG
+            )
+                .bytes
+        }
+        ScriptType.P2WPKH -> {
+            ByteBuffer(
+                OpCodes.FALSE,
+                OpSize.ofInt(hash.size),
+                *hash
+            )
+                .bytes
+        }
+        else -> throw IllegalArgumentException(
+            String.format(ErrorMessages.SPK_UNSUPPORTED_PRODUCER, type.toString())
+        )
     }
-
-
 }
 
 

@@ -3,11 +3,12 @@ package com.lumiwallet.android.core.bitcoin.transaction
 import com.lumiwallet.android.core.bitcoin.constant.ErrorMessages
 import com.lumiwallet.android.core.bitcoin.constant.SigHashType
 import com.lumiwallet.android.core.bitcoin.core.PrivateKey
+import com.lumiwallet.android.core.bitcoin.script.ScriptType
 import com.lumiwallet.android.core.bitcoin.types.UInt
 import com.lumiwallet.android.core.bitcoin.types.VarInt
 import com.lumiwallet.android.core.bitcoin.util.ByteBuffer
 import com.lumiwallet.android.core.utils.Sha256Hash
-import org.bouncycastle.util.encoders.Hex
+import com.lumiwallet.android.core.utils.hex
 import java.util.*
 
 class TransactionBuilder private constructor() {
@@ -133,91 +134,41 @@ class TransactionBuilder private constructor() {
 
         val buildSegWitTransaction = containsSegwitInput()
 
-        val transaction = Transaction()
-        transaction.addData("Version", VERSION.toString())
-        if (buildSegWitTransaction) {
-            transaction.addData("Marker", Hex.toHexString(byteArrayOf(SEGWIT_MARKER)), false)
-            transaction.addData("Flag", Hex.toHexString(byteArrayOf(SEGWIT_FLAG)), false)
-        }
 
-        transaction.addData("Input count", VarInt.of(inputs.size.toLong()).toString())
-        val witnesses = LinkedList<ByteArray>()
-        for (i in inputs.indices) {
-            val sigHash = getSigHash(buildOutputs, i)
-            inputs[i].fillTransaction(sigHash, transaction)
+        return Transaction().apply {
+            addData(Transaction.TxPart.VERSION, VERSION.toString())
+
             if (buildSegWitTransaction) {
-                witnesses.add(inputs[i].getWitness(sigHash))
+                addData(Transaction.TxPart.MARKER, byteArrayOf(SEGWIT_MARKER).hex)
+                addData(Transaction.TxPart.FLAG, byteArrayOf(SEGWIT_FLAG).hex)
             }
-        }
 
-        transaction.addData("Output count", VarInt.of(buildOutputs.size.toLong()).toString())
-        for (output in buildOutputs) {
-            output.fillTransaction(transaction)
-        }
-
-        if (buildSegWitTransaction) {
-            transaction.addHeader("Witnesses")
-            for (w in witnesses) {
-                transaction.addData("   Witness", Hex.toHexString(w), false)
+            addData(Transaction.TxPart.INPUT_COUNT, VarInt.of(inputs.size.toLong()).toString())
+            val witnesses = LinkedList<ByteArray>()
+            for (i in inputs.indices) {
+                val sigHash = getSigHash(buildOutputs, i)
+                inputs[i].fillTransaction(sigHash, this, ScriptType.forLock(inputs[i].lock))
+                if (buildSegWitTransaction) {
+                    witnesses.add(inputs[i].getWitness(sigHash))
+                }
             }
-        }
 
-        transaction.addData("Locktime", LOCK_TIME.toString())
+            addData(Transaction.TxPart.OUTPUT_COUNT, VarInt.of(buildOutputs.size.toLong()).toString())
+            for (output in buildOutputs) {
+                output.fillTransaction(this)
+            }
 
-        transaction.setFee(fee)
-
-        return transaction
-    }
-
-    fun buildTest(): Transaction {
-        testTx = true
-        check(!inputs.isEmpty()) { "Transaction must contain at least one input" }
-
-        val buildOutputs = LinkedList(outputs)
-
-        val change = change
-        if (change > 0) {
-            buildOutputs.add(Output(change, changeAddress!!, OutputType.CHANGE))
-        }
-
-        check(!buildOutputs.isEmpty()) { "Transaction must contain at least one output" }
-
-        val buildSegWitTransaction = containsSegwitInput()
-
-        val transaction = Transaction()
-        transaction.addData("Version", VERSION.toString())
-        if (buildSegWitTransaction) {
-            transaction.addData("Marker", Hex.toHexString(byteArrayOf(SEGWIT_MARKER)), false)
-            transaction.addData("Flag", Hex.toHexString(byteArrayOf(SEGWIT_FLAG)), false)
-        }
-
-        transaction.addData("Input count", VarInt.of(inputs.size.toLong()).toString())
-        val witnesses = LinkedList<ByteArray>()
-        for (i in inputs.indices) {
-            val sigHash = getSigHash(buildOutputs, i)
-            inputs[i].fillTransaction(sigHash, transaction)
             if (buildSegWitTransaction) {
-                witnesses.add(inputs[i].getWitness(sigHash))
+                addHeader(Transaction.TxPart.WITNESSES)
+                for (w in witnesses) {
+                    addData(Transaction.TxPart.WITNESS, w.hex)
+                }
             }
+
+            addData(Transaction.TxPart.LOCKTIME, LOCK_TIME.toString())
+
+            setFee(fee)
         }
-
-        transaction.addData("Output count", VarInt.of(buildOutputs.size.toLong()).toString())
-        for (output in buildOutputs) {
-            output.fillTransaction(transaction)
-        }
-
-        if (buildSegWitTransaction) {
-            transaction.addHeader("Witnesses")
-            for (w in witnesses) {
-                transaction.addData("   Witness", Hex.toHexString(w), false)
-            }
-        }
-
-        transaction.addData("Locktime", LOCK_TIME.toString())
-
-        transaction.setFee(fee)
-
-        return transaction
     }
 
     private fun getSigHash(buildOutputs: List<Output>, signedInputIndex: Int): ByteArray {

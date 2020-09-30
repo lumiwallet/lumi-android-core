@@ -7,53 +7,73 @@ import com.lumiwallet.android.core.bitcoin.types.UInt
 import com.lumiwallet.android.core.bitcoin.types.ULong
 import com.lumiwallet.android.core.bitcoin.types.VarInt
 import com.lumiwallet.android.core.bitcoin.util.ByteBuffer
-import com.lumiwallet.android.core.bitcoin.util.HexUtils
 import com.lumiwallet.android.core.crypto.Ripemd160
 import com.lumiwallet.android.core.utils.Sha256Hash
+import com.lumiwallet.android.core.utils.safeToByteArray
 
 object SigPreimageProducer {
 
-    internal fun producePreimage(segwit: Boolean, inputs: List<Input>, outputs: List<Output>, singingInputIndex: Int): ByteArray {
+    internal fun producePreimage(
+        segwit: Boolean,
+        inputs: List<Input>,
+        outputs: List<Output>,
+        singingInputIndex: Int
+    ): ByteArray {
         if (segwit) {
-            val result = ByteBuffer()
+            val preimage = ByteBuffer()
             val currentInput = inputs[singingInputIndex]
 
-            val prevOuts = ByteBuffer() //hashPrevOuts
-            for (input in inputs) {
+            //2. hashPrevOuts
+            val prevOuts = ByteBuffer()
+            inputs.forEach { input ->
                 prevOuts.append(*input.transactionHashBytesLitEnd)
                 prevOuts.append(*UInt.of(input.index).asLitEndBytes())
             }
-            result.append(*Sha256Hash.hashTwice(prevOuts.bytes()))
+            preimage.append(*Sha256Hash.hashTwice(prevOuts.bytes))
 
-            val sequences = ByteBuffer() //hashSequences
+            //3. hashSequences
+            val sequences = ByteBuffer()
             for (input in inputs) {
                 sequences.append(*input.sequence.asLitEndBytes())
             }
-            result.append(*Sha256Hash.hashTwice(sequences.bytes()))
+            preimage.append(*Sha256Hash.hashTwice(sequences.bytes))
 
-            result.append(*currentInput.transactionHashBytesLitEnd) //outpoint
-            result.append(*UInt.of(currentInput.index).asLitEndBytes())
+            //4. PreviousTransactionHash
+            preimage.append(*currentInput.transactionHashBytesLitEnd)
 
-            val privateKey = currentInput.privateKey
-            val pkh = Ripemd160.from(Sha256Hash.hash(privateKey.publicKey)) //scriptCode
-            val scriptCode = ByteBuffer(OpCodes.DUP, OpCodes.HASH160, 0x14.toByte())
-            scriptCode.append(*pkh)
-            scriptCode.append(OpCodes.EQUALVERIFY, OpCodes.CHECKSIG)
-            scriptCode.putFirst(OpSize.ofInt(scriptCode.size()).size)
-            result.append(*scriptCode.bytes())
+            //5.InputIndex
+            preimage.append(*UInt.of(currentInput.index).asLitEndBytes())
 
-            result.append(*ULong.of(currentInput.satoshi).asLitEndBytes()) //amount in
+            val scriptCode = ByteBuffer(
+                OpCodes.DUP,
+                OpCodes.HASH160,
+                OpSize.ofInt(20),
+                *Ripemd160.from(Sha256Hash.hash(currentInput.privateKey.publicKey)),
+                OpCodes.EQUALVERIFY,
+                OpCodes.CHECKSIG
+            )
 
-            result.append(*currentInput.sequence.asLitEndBytes()) //sequence
+            //6.ScriptDataCount
+            preimage.append(OpSize.ofInt(scriptCode.size))
 
-            val outs = ByteBuffer() //hash outs
-            for (output in outputs) {
-                val bytes = output.serializeForSigHash()
-                outs.append(*bytes)
+            //7.ScriptData
+            preimage.append(*scriptCode.bytes)
+
+            //8.Amount
+            preimage.append(*ULong.of(currentInput.satoshi).asLitEndBytes())
+
+            //9.Sequence
+            preimage.append(*currentInput.sequence.asLitEndBytes())
+
+            //10.OutputsHash
+            val outs = ByteBuffer()
+            outputs.forEach { output ->
+                outs.append(*output.serializeForSigHash())
             }
-            result.append(*Sha256Hash.hashTwice(outs.bytes()))
 
-            return result.bytes()
+            preimage.append(*Sha256Hash.hashTwice(outs.bytes))
+
+            return preimage.bytes
         } else {
             val result = ByteBuffer()
 
@@ -64,7 +84,7 @@ object SigPreimageProducer {
                 result.append(*UInt.of(input.index).asLitEndBytes())
 
                 if (i == singingInputIndex) {
-                    val lockBytes = HexUtils.asBytes(input.lock)
+                    val lockBytes = input.lock.safeToByteArray()
                     result.append(*VarInt.of(lockBytes.size.toLong()).asLitEndBytes())
                     result.append(*lockBytes)
                 } else {

@@ -5,7 +5,6 @@ import com.lumiwallet.android.core.bitcoinCash.types.OpSize
 import com.lumiwallet.android.core.bitcoinCash.types.UInt
 import com.lumiwallet.android.core.bitcoinCash.types.ULong
 import com.lumiwallet.android.core.bitcoinCash.util.ByteBuffer
-import com.lumiwallet.android.core.crypto.Ripemd160
 import com.lumiwallet.android.core.utils.Sha256Hash
 
 object SigPreimageProducer {
@@ -43,7 +42,7 @@ object SigPreimageProducer {
             OpCodes.DUP,
             OpCodes.HASH160,
             OpSize.ofInt(20),
-            *Ripemd160.from(Sha256Hash.hash(currentInput.privateKey.publicKey)),
+            *currentInput.privateKey.publicKeyHash,
             OpCodes.EQUALVERIFY,
             OpCodes.CHECKSIG
         )

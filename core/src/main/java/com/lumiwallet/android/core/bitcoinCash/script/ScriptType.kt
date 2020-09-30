@@ -1,12 +1,12 @@
 package com.lumiwallet.android.core.bitcoinCash.script
 
-import com.lumiwallet.android.core.bitcoin.util.HexUtils
 import com.lumiwallet.android.core.bitcoinCash.constant.ErrorMessages
 import com.lumiwallet.android.core.bitcoinCash.constant.OpCodes.CHECKSIG
 import com.lumiwallet.android.core.bitcoinCash.constant.OpCodes.DUP
 import com.lumiwallet.android.core.bitcoinCash.constant.OpCodes.EQUAL
 import com.lumiwallet.android.core.bitcoinCash.constant.OpCodes.EQUALVERIFY
 import com.lumiwallet.android.core.bitcoinCash.constant.OpCodes.HASH160
+import com.lumiwallet.android.core.utils.safeToByteArray
 
 enum class ScriptType(
     val id: Int
@@ -19,7 +19,7 @@ enum class ScriptType(
     companion object{
 
         fun forLock(lock: String): ScriptType {
-            val lockBytes = HexUtils.asBytes(lock)
+            val lockBytes = lock.safeToByteArray()
             return when {
                 isP2PKH(lockBytes) -> P2PKH
                 isP2SH(lockBytes) -> P2SH

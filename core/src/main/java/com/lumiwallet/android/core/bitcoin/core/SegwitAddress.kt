@@ -4,15 +4,15 @@ package com.lumiwallet.android.core.bitcoin.core
 import com.google.common.base.Preconditions.checkArgument
 import com.google.common.base.Preconditions.checkState
 import com.lumiwallet.android.core.bitcoin.constant.OpCodes
-import com.lumiwallet.android.core.bitcoin.core.SegwitAddressUtils.convertBits
 import com.lumiwallet.android.core.bitcoin.script.ScriptType
 import com.lumiwallet.android.core.crypto.ECKey
+import com.lumiwallet.android.core.utils.BitsConverter.convertBits
 import kotlin.experimental.and
 
 class SegwitAddress @Throws(AddressFormatException::class)
 private constructor(
-        params: NetworkParameters,
-        data: ByteArray
+    params: NetworkParameters,
+    data: ByteArray
 ) : Address(params, data) {
 
     companion object {
@@ -30,25 +30,35 @@ private constructor(
             return bytes
         }
 
+        fun fromBech32(
+            params: NetworkParameters,
+            bech32address: String
+        ): SegwitAddress {
+            val bech32data = Bech32.decode(bech32address)
+            if (bech32data.hrp != params.segwitAddressHrp)
+                throw IllegalArgumentException("Network params hrp is: ${params.segwitAddressHrp}.\nAddress hrp is: ${bech32data.hrp}")
+            return SegwitAddress(params, bech32data.data)
+        }
+
         fun fromHash(
-                params: NetworkParameters,
-                hash: ByteArray
+            params: NetworkParameters,
+            hash: ByteArray
         ): SegwitAddress = SegwitAddress(params, 0, hash)
 
         fun fromKey(
-                params: NetworkParameters,
-                key: ECKey
+            params: NetworkParameters,
+            key: ECKey
         ): SegwitAddress {
             checkArgument(key.isCompressed, "only compressed keys allowed")
-            return fromHash(params, key.pubKeyHash!!)
+            return fromHash(params, key.pubKeyHash)
         }
     }
 
     @Throws(AddressFormatException::class)
     private constructor(
-            params: NetworkParameters,
-            witnessVersion: Int,
-            witnessProgram: ByteArray
+        params: NetworkParameters,
+        witnessVersion: Int,
+        witnessProgram: ByteArray
     ) : this(params, encode(witnessVersion, witnessProgram))
 
     init {
@@ -59,11 +69,14 @@ private constructor(
         if (witnessProgram.size < WITNESS_PROGRAM_MIN_LENGTH || witnessProgram.size > WITNESS_PROGRAM_MAX_LENGTH)
             throw AddressFormatException.InvalidDataLength("Invalid length: ${witnessProgram.size}")
         if (witnessVersion == 0 && witnessProgram.size != WITNESS_PROGRAM_LENGTH_PKH
-                && witnessProgram.size != WITNESS_PROGRAM_LENGTH_SH)
+            && witnessProgram.size != WITNESS_PROGRAM_LENGTH_SH
+        )
             throw AddressFormatException.InvalidDataLength(
-                    "Invalid length for address version 0: ${witnessProgram.size}")
+                "Invalid length for address version 0: ${witnessProgram.size}"
+            )
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     val witnessVersion: Int
         get() = (bytes[0] and 0xff.toByte()).toInt()
 
@@ -86,9 +99,9 @@ private constructor(
         }
 
 
-
     override fun toString(): String = toBech32()
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun toBech32(): String = Bech32.encode(params.segwitAddressHrp, bytes)
 
 }

@@ -7,25 +7,24 @@ import com.lumiwallet.android.core.bitcoin.util.ByteBuffer
 
 object WitnessProducer {
 
-    internal fun produceWitness(segwit: Boolean, sigHash: ByteArray, key: PrivateKey): ByteArray {
-        if (segwit) {
-            val result = ByteBuffer()
+    internal fun produceWitness(
+        sigHash: ByteArray,
+        key: PrivateKey
+    ): ByteArray = ByteBuffer().apply {
+        val sign = ByteBuffer(
+            *key.sign(sigHash),
+            SigHashType.ALL.asByte()
+        )
 
-            result.append(0x02.toByte())
+        val pubKeyEncoded = key.key.pubKeyPoint.getEncoded(true)
 
-            val sign = ByteBuffer(*key.sign(sigHash))
-            sign.append(SigHashType.ALL.asByte())
-            result.append(OpSize.ofInt(sign.size()).size)
-            result.append(*sign.bytes())
+        append(0x02.toByte())
 
-            val pubKey = key.publicKey
-            result.append(OpSize.ofInt(pubKey.size).size)
-            result.append(*pubKey)
+        append(OpSize.ofInt(sign.size))
+        append(*sign.bytes())
 
-            return result.bytes()
-        } else {
-            return byteArrayOf(0x00.toByte())
-        }
+        append(OpSize.ofInt(pubKeyEncoded.size))
+        append(*pubKeyEncoded)
     }
-
+        .bytes
 }
