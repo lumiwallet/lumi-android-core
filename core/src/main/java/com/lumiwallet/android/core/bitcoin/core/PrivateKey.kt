@@ -9,15 +9,15 @@ import com.lumiwallet.android.core.crypto.ECKey
 import com.lumiwallet.android.core.utils.Base58
 import com.lumiwallet.android.core.utils.Sha256Hash
 import java.io.Serializable
-import java.util.*
+
 
 class PrivateKey : Serializable, Cloneable, Comparable<PrivateKey> {
 
     companion object {
 
         private fun encode(
-                keyBytes: ByteArray,
-                compressed: Boolean
+            keyBytes: ByteArray,
+            compressed: Boolean
         ): ByteArray {
             Preconditions.checkArgument(keyBytes.size == 32, "Private keys must be 32 bytes")
             return if (!compressed) {
@@ -81,9 +81,9 @@ class PrivateKey : Serializable, Cloneable, Comparable<PrivateKey> {
     }
 
     constructor(
-            params: NetworkParameters,
-            keyBytes: ByteArray,
-            compressed: Boolean
+        params: NetworkParameters,
+        keyBytes: ByteArray,
+        compressed: Boolean
     ) : this(params, encode(keyBytes, compressed))
 
     constructor(ecKey: ECKey) {
@@ -92,7 +92,8 @@ class PrivateKey : Serializable, Cloneable, Comparable<PrivateKey> {
         this.key = ecKey
         if (bytes.size != 32 && bytes.size != 33)
             throw AddressFormatException.InvalidDataLength(
-                    "Wrong number of bytes for a private key (32 or 33): " + bytes.size)
+                "Wrong number of bytes for a private key (32 or 33): " + bytes.size
+            )
     }
 
     private constructor(params: NetworkParameters, bytes: ByteArray) {
@@ -101,7 +102,8 @@ class PrivateKey : Serializable, Cloneable, Comparable<PrivateKey> {
         this.key = ECKey.fromPrivate(bytes)
         if (bytes.size != 32 && bytes.size != 33)
             throw AddressFormatException.InvalidDataLength(
-                    "Wrong number of bytes for a private key (32 or 33): " + bytes.size)
+                "Wrong number of bytes for a private key (32 or 33): " + bytes.size
+            )
     }
 
     @Transient
@@ -109,16 +111,24 @@ class PrivateKey : Serializable, Cloneable, Comparable<PrivateKey> {
     private val bytes: ByteArray
     val key: ECKey
 
+    @Suppress("unused")
     val isPubKeyCompressed: Boolean
         get() = bytes.size == 33 && bytes[32].toInt() == 1
 
     val publicKey: ByteArray
         get() = key.pubKey
 
+    /**
+     * Sha256 + RipeMD160
+     * */
+    val publicKeyHash: ByteArray
+        get() = key.pubKeyHash
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun toBase58(): String = Base58.encodeChecked(params.dumpedPrivateKeyHeader, bytes)
 
-    fun sign(bytesToSign: ByteArray): ByteArray = key.sign(Sha256Hash.wrap(bytesToSign)).encodeToDER()
+    fun sign(bytesToSign: ByteArray): ByteArray =
+        key.sign(Sha256Hash.wrap(bytesToSign)).encodeToDER()
 
     override fun hashCode(): Int = Objects.hashCode(params, bytes.contentHashCode())
 
@@ -127,16 +137,15 @@ class PrivateKey : Serializable, Cloneable, Comparable<PrivateKey> {
     @Throws(CloneNotSupportedException::class)
     public override fun clone(): PrivateKey = super.clone() as PrivateKey
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o == null || javaClass != o.javaClass) return false
-        val other = o as PrivateKey?
-        return this.params == other!!.params && Arrays.equals(this.bytes, other.bytes)
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        return this.params == (other as PrivateKey).params && this.bytes.contentEquals(other.bytes)
     }
 
-    override fun compareTo(o: PrivateKey): Int {
-        val result = this.params.id.compareTo(o.params.id)
-        return if (result != 0) result else UnsignedBytes.lexicographicalComparator().compare(this.bytes, o.bytes)
+    override fun compareTo(other: PrivateKey): Int {
+        val result = this.params.id.compareTo(other.params.id)
+        return if (result != 0) result else UnsignedBytes.lexicographicalComparator()
+            .compare(this.bytes, other.bytes)
     }
-
 }
