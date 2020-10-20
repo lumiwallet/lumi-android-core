@@ -7,7 +7,6 @@ import com.lumiwallet.android.core.bitcoin.constant.OpCodes.DUP
 import com.lumiwallet.android.core.bitcoin.constant.OpCodes.EQUAL
 import com.lumiwallet.android.core.bitcoin.constant.OpCodes.EQUALVERIFY
 import com.lumiwallet.android.core.bitcoin.constant.OpCodes.HASH160
-import com.lumiwallet.android.core.bitcoin.core.Bech32
 import com.lumiwallet.android.core.bitcoin.core.SegwitAddress
 import com.lumiwallet.android.core.bitcoin.params.MainNetParams
 import com.lumiwallet.android.core.utils.Base58
@@ -27,12 +26,17 @@ enum class ScriptType(
     companion object {
 
         fun fromAddressPrefix(address: String) = when {
-            address.startsWith(MainNetParams.segwitAddressHrp!!) &&
-                    Bech32.decode(address).data.size == SegwitAddress.WITNESS_PROGRAM_LENGTH_PKH -> P2WPKH
+            address.startsWith(MainNetParams.segwitAddressHrp!!) -> {
+                val segwitAddress = SegwitAddress.fromBech32(MainNetParams, address)
+                if (segwitAddress.witnessProgram.size == SegwitAddress.WITNESS_PROGRAM_LENGTH_PKH)
+                    P2WPKH
+                else
+                    throw IllegalArgumentException(ErrorMessages.INPUT_LOCK_WRONG_FORMAT)
+            }
             Base58.decodeChecked(address).first() == MainNetParams.addressHeader.toByte() -> P2PKH
             Base58.decodeChecked(address).first() == MainNetParams.p2SHHeader.toByte() -> P2SH
             else ->
-                throw IllegalArgumentException(ErrorMessages.OUTPUT_ADDRESS_WRONG_PREFIX)
+                throw IllegalArgumentException(ErrorMessages.INPUT_LOCK_WRONG_FORMAT)
         }
 
         fun forLock(lock: String): ScriptType {
