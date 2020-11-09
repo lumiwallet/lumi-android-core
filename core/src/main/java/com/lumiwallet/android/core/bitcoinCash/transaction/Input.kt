@@ -1,13 +1,13 @@
 package com.lumiwallet.android.core.bitcoinCash.transaction
 
-import com.lumiwallet.android.core.bitcoin.types.UInt
-import com.lumiwallet.android.core.bitcoin.types.VarInt
-import com.lumiwallet.android.core.bitcoinCash.constant.ErrorMessages
-import com.lumiwallet.android.core.bitcoinCash.core.PrivateKey
 import com.lumiwallet.android.core.bitcoinCash.script.ScriptType
-import com.lumiwallet.android.core.bitcoinCash.types.OpSize
-import com.lumiwallet.android.core.bitcoinCash.util.ValidationUtils.isHexString
-import com.lumiwallet.android.core.bitcoinCash.util.ValidationUtils.isTransactionId
+import com.lumiwallet.android.core.utils.btc_based.ErrorMessages
+import com.lumiwallet.android.core.utils.btc_based.ValidationUtils.isHexString
+import com.lumiwallet.android.core.utils.btc_based.ValidationUtils.isTransactionId
+import com.lumiwallet.android.core.utils.btc_based.core.PrivateKey
+import com.lumiwallet.android.core.utils.btc_based.types.OpSize
+import com.lumiwallet.android.core.utils.btc_based.types.UInt
+import com.lumiwallet.android.core.utils.btc_based.types.VarInt
 import com.lumiwallet.android.core.utils.hex
 import com.lumiwallet.android.core.utils.safeToByteArray
 

@@ -5,6 +5,9 @@ import com.google.common.base.Objects
 import com.lumiwallet.android.core.bitcoinCash.script.ScriptType
 import com.lumiwallet.android.core.crypto.ECKey
 import com.lumiwallet.android.core.utils.Base58
+import com.lumiwallet.android.core.utils.btc_based.core.Address
+import com.lumiwallet.android.core.utils.btc_based.core.AddressFormatException
+import com.lumiwallet.android.core.utils.btc_based.core.NetworkParameters
 
 class LegacyAddress @Throws(AddressFormatException::class) private constructor(
     params: NetworkParameters,
@@ -29,7 +32,7 @@ class LegacyAddress @Throws(AddressFormatException::class) private constructor(
     override val hash: ByteArray
         get() = bytes
 
-    override val outputScriptType: ScriptType
+    val outputScriptType: ScriptType
         get() = if (p2sh) ScriptType.P2SH else ScriptType.P2PKH
 
     init {

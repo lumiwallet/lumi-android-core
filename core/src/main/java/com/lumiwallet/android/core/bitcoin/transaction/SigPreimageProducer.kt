@@ -2,12 +2,12 @@ package com.lumiwallet.android.core.bitcoin.transaction
 
 
 import com.lumiwallet.android.core.bitcoin.constant.OpCodes
-import com.lumiwallet.android.core.bitcoin.types.OpSize
-import com.lumiwallet.android.core.bitcoin.types.UInt
-import com.lumiwallet.android.core.bitcoin.types.ULong
-import com.lumiwallet.android.core.bitcoin.types.VarInt
-import com.lumiwallet.android.core.bitcoin.util.ByteBuffer
 import com.lumiwallet.android.core.utils.Sha256Hash
+import com.lumiwallet.android.core.utils.btc_based.ByteBuffer
+import com.lumiwallet.android.core.utils.btc_based.types.OpSize
+import com.lumiwallet.android.core.utils.btc_based.types.UInt
+import com.lumiwallet.android.core.utils.btc_based.types.ULong
+import com.lumiwallet.android.core.utils.btc_based.types.VarInt
 import com.lumiwallet.android.core.utils.safeToByteArray
 
 object SigPreimageProducer {

@@ -4,6 +4,7 @@ import com.lumiwallet.android.core.bitcoin.core.LegacyAddress
 import com.lumiwallet.android.core.bitcoin.params.MainNetParams
 import com.lumiwallet.android.core.crypto.hd.DeterministicKey
 import com.lumiwallet.android.core.crypto.hd.HDKeyDerivation
+import com.lumiwallet.android.core.doge.params.DogeNetParams
 import com.lumiwallet.android.core.eos.ec.EosPrivateKey
 import com.lumiwallet.lumi_core.domain.entity.DerivedKeyViewModel
 import io.reactivex.rxjava3.core.Single
@@ -29,6 +30,7 @@ class GetKeysInRangeUseCase @Inject constructor() {
                     childIndex,
                     LegacyAddress.fromKey(MainNetParams, childKey).toString(),
                     EosPrivateKey(key).publicKey.toString(),
+                    com.lumiwallet.android.core.doge.core.LegacyAddress.fromKey(DogeNetParams, key).toString(),
                     childKey.publicKeyAsHex,
                     childKey.privateKeyAsHex
                 )

@@ -1,11 +1,11 @@
 package com.lumiwallet.android.core.bitcoinCash.script
 
-import com.lumiwallet.android.core.bitcoinCash.constant.ErrorMessages
 import com.lumiwallet.android.core.bitcoinCash.constant.OpCodes.CHECKSIG
 import com.lumiwallet.android.core.bitcoinCash.constant.OpCodes.DUP
 import com.lumiwallet.android.core.bitcoinCash.constant.OpCodes.EQUAL
 import com.lumiwallet.android.core.bitcoinCash.constant.OpCodes.EQUALVERIFY
 import com.lumiwallet.android.core.bitcoinCash.constant.OpCodes.HASH160
+import com.lumiwallet.android.core.utils.btc_based.ErrorMessages
 import com.lumiwallet.android.core.utils.safeToByteArray
 
 enum class ScriptType(

@@ -14,6 +14,7 @@ import com.lumiwallet.lumi_core.presentation.btcSigning.editInputScreen.EditInpu
 import com.lumiwallet.lumi_core.presentation.btcSigning.editOutputScreen.EditOutputFragment
 import com.lumiwallet.lumi_core.presentation.btcSigning.mainScreen.BtcSigningFragment
 import com.lumiwallet.lumi_core.presentation.derivationScreen.DerivationFragment
+import com.lumiwallet.lumi_core.presentation.dogeSigning.mainScreen.DogeSigningFragment
 import com.lumiwallet.lumi_core.presentation.eosSigning.EosSigningFragment
 import com.lumiwallet.lumi_core.presentation.generateRandomScreen.GenerateRandomFragment
 import com.lumiwallet.lumi_core.presentation.mainScreen.MainFragment
@@ -45,6 +46,10 @@ class MainActivity : AppCompatActivity(),
 
     override fun navigateToBchSigningFragment() {
         navigateToFragment(BchSigningFragment())
+    }
+
+    override fun navigateToDogeSigningFragment() {
+        navigateToFragment(DogeSigningFragment())
     }
 
     override fun navigateToGenerateRandomBytesFragment() {
@@ -93,6 +98,22 @@ class MainActivity : AppCompatActivity(),
 
     override fun navigateToEditBchOutputFragment(output: Output) {
         navigateToFragment(com.lumiwallet.lumi_core.presentation.bchSigning.editOutputScreen.EditOutputFragment(output))
+    }
+
+    override fun navigateToAddDogeInputFragment() {
+        navigateToFragment(com.lumiwallet.lumi_core.presentation.dogeSigning.addInputScreen.AddInputFragment())
+    }
+
+    override fun navigateToAddDogeOutputFragment() {
+        navigateToFragment(com.lumiwallet.lumi_core.presentation.dogeSigning.addOutputScreen.AddOutputFragment())
+    }
+
+    override fun navigateToEditDogeInputFragment(input: InputViewModel) {
+        navigateToFragment(com.lumiwallet.lumi_core.presentation.dogeSigning.editInputScreen.EditInputFragment(input))
+    }
+
+    override fun navigateToEditDogeOutputFragment(output: Output) {
+        navigateToFragment(com.lumiwallet.lumi_core.presentation.dogeSigning.editOutputScreen.EditOutputFragment(output))
     }
 
     private fun navigateToFragment(

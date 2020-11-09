@@ -108,6 +108,10 @@ class MainFragment : BaseFragment(), MainView {
             navigateToBchSigningFragment()
         }
 
+        tvCreateDogeTx.setOnClickListener {
+            navigateToDogeSigningFragment()
+        }
+
         tvAbout.setOnClickListener {
             presenter.onAboutClicked()
         }

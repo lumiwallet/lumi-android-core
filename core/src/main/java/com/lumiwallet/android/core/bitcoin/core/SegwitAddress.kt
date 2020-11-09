@@ -7,6 +7,9 @@ import com.lumiwallet.android.core.bitcoin.constant.OpCodes
 import com.lumiwallet.android.core.bitcoin.script.ScriptType
 import com.lumiwallet.android.core.crypto.ECKey
 import com.lumiwallet.android.core.utils.BitsConverter.convertBits
+import com.lumiwallet.android.core.utils.btc_based.core.Address
+import com.lumiwallet.android.core.utils.btc_based.core.AddressFormatException
+import com.lumiwallet.android.core.utils.btc_based.core.NetworkParameters
 import kotlin.experimental.and
 
 class SegwitAddress @Throws(AddressFormatException::class)
@@ -86,7 +89,7 @@ private constructor(
     override val hash: ByteArray
         get() = witnessProgram
 
-    override val outputScriptType: ScriptType
+    val outputScriptType: ScriptType
         get() {
             val version = witnessVersion
             checkState(version == 0)

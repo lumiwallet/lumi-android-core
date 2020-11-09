@@ -207,6 +207,39 @@
         tools:ignore="ContentDescription" />
 
     <TextView
+        android:id="@+id/tvCreateDogeTx"
+        style="@style/normalTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="?selectableItemBackground"
+        android:padding="16dp"
+        android:text="@string/fragment_main_create_doge_tx"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCreateBchTx" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/black_015"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCreateDogeTx" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_icon_open"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCreateDogeTx"
+        app:layout_constraintEnd_toEndOf="@+id/tvCreateDogeTx"
+        app:layout_constraintTop_toTopOf="@+id/tvCreateDogeTx"
+        tools:ignore="ContentDescription" />
+
+    <TextView
         android:id="@+id/tvGenerate"
         style="@style/normalTextView"
         android:layout_width="0dp"
@@ -217,7 +250,7 @@
         android:text="@string/fragment_main_generate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCreateBchTx" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCreateDogeTx" />
 
     <View
         android:layout_width="0dp"

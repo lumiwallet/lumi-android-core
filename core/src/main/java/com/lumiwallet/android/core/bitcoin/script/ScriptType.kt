@@ -1,6 +1,5 @@
 package com.lumiwallet.android.core.bitcoin.script
 
-import com.lumiwallet.android.core.bitcoin.constant.ErrorMessages
 import com.lumiwallet.android.core.bitcoin.constant.OpCodes
 import com.lumiwallet.android.core.bitcoin.constant.OpCodes.CHECKSIG
 import com.lumiwallet.android.core.bitcoin.constant.OpCodes.DUP
@@ -10,6 +9,7 @@ import com.lumiwallet.android.core.bitcoin.constant.OpCodes.HASH160
 import com.lumiwallet.android.core.bitcoin.core.SegwitAddress
 import com.lumiwallet.android.core.bitcoin.params.MainNetParams
 import com.lumiwallet.android.core.utils.Base58
+import com.lumiwallet.android.core.utils.btc_based.ErrorMessages
 import com.lumiwallet.android.core.utils.safeToByteArray
 
 enum class ScriptType(

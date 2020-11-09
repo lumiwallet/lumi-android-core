@@ -1,6 +1,7 @@
 package com.lumiwallet.android.core.bitcoin.constant
 
-import com.lumiwallet.android.core.bitcoin.types.UInt
+
+import com.lumiwallet.android.core.utils.btc_based.types.UInt
 
 object SigHashType {
 

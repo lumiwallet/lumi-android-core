@@ -1,6 +1,8 @@
 package com.lumiwallet.android.core.bitcoin.core;
 
 
+import com.lumiwallet.android.core.utils.btc_based.core.AddressFormatException;
+
 import java.util.Arrays;
 import java.util.Locale;
 

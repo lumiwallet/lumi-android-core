@@ -6,6 +6,7 @@ import com.lumiwallet.lumi_core.di.AppContextModule
 import com.lumiwallet.lumi_core.di.DaggerAppComponent
 import com.lumiwallet.lumi_core.presentation.bchSigning.di.BchSigningComponent
 import com.lumiwallet.lumi_core.presentation.btcSigning.di.BtcSigningComponent
+import com.lumiwallet.lumi_core.presentation.dogeSigning.di.DogeSigningComponent
 
 class App : Application() {
 
@@ -19,6 +20,10 @@ class App : Application() {
 
         @JvmStatic
         var bchSigningComponent: BchSigningComponent? = null
+            private set
+
+        @JvmStatic
+        var dogeSigningComponent: DogeSigningComponent? = null
             private set
 
         fun getOrCreateBtcSigningComponent(): BtcSigningComponent {
@@ -39,6 +44,16 @@ class App : Application() {
 
         fun destroyBchSigningComponent() {
             bchSigningComponent = null
+        }
+
+        fun getOrCreateDogeSigningComponent(): DogeSigningComponent {
+            if (dogeSigningComponent == null)
+                dogeSigningComponent = appComponent.dogeSigningComponent()
+            return dogeSigningComponent!!
+        }
+
+        fun destroyDogeSigningComponent() {
+            dogeSigningComponent = null
         }
     }
 

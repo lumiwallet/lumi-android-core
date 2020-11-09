@@ -1,15 +1,15 @@
 package com.lumiwallet.android.core.bitcoin.transaction
 
-import com.lumiwallet.android.core.bitcoin.constant.ErrorMessages
-import com.lumiwallet.android.core.bitcoin.core.PrivateKey
 import com.lumiwallet.android.core.bitcoin.script.ScriptType
-import com.lumiwallet.android.core.bitcoin.types.OpSize
-import com.lumiwallet.android.core.bitcoin.types.UInt
-import com.lumiwallet.android.core.bitcoin.types.VarInt
-import com.lumiwallet.android.core.bitcoin.util.ByteBuffer
-import com.lumiwallet.android.core.bitcoin.util.ValidationUtils.isEmpty
-import com.lumiwallet.android.core.bitcoin.util.ValidationUtils.isHexString
-import com.lumiwallet.android.core.bitcoin.util.ValidationUtils.isTransactionId
+import com.lumiwallet.android.core.utils.btc_based.ByteBuffer
+import com.lumiwallet.android.core.utils.btc_based.ErrorMessages
+import com.lumiwallet.android.core.utils.btc_based.ValidationUtils.isEmpty
+import com.lumiwallet.android.core.utils.btc_based.ValidationUtils.isHexString
+import com.lumiwallet.android.core.utils.btc_based.ValidationUtils.isTransactionId
+import com.lumiwallet.android.core.utils.btc_based.core.PrivateKey
+import com.lumiwallet.android.core.utils.btc_based.types.OpSize
+import com.lumiwallet.android.core.utils.btc_based.types.UInt
+import com.lumiwallet.android.core.utils.btc_based.types.VarInt
 import com.lumiwallet.android.core.utils.hex
 import com.lumiwallet.android.core.utils.safeToByteArray
 

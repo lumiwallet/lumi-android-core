@@ -1,9 +1,9 @@
 package com.lumiwallet.android.core.bitcoinCash.transaction
 
-import com.lumiwallet.android.core.bitcoinCash.constant.ErrorMessages
 import com.lumiwallet.android.core.bitcoinCash.constant.OpCodes
-import com.lumiwallet.android.core.bitcoinCash.types.OpSize
-import com.lumiwallet.android.core.bitcoinCash.util.ByteBuffer
+import com.lumiwallet.android.core.utils.btc_based.ByteBuffer
+import com.lumiwallet.android.core.utils.btc_based.ErrorMessages
+import com.lumiwallet.android.core.utils.btc_based.types.OpSize
 
 object ScriptPubKeyProducer {
 

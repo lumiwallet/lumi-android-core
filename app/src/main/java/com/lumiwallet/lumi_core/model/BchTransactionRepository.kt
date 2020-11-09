@@ -1,8 +1,9 @@
 package com.lumiwallet.lumi_core.model
 
-import com.lumiwallet.android.core.bitcoinCash.core.PrivateKey
+import com.lumiwallet.android.core.bitcoinCash.params.MainNetParams
 import com.lumiwallet.android.core.bitcoinCash.transaction.TransactionBuilder
 import com.lumiwallet.android.core.bitcoinCash.transaction.UnspentOutput
+import com.lumiwallet.android.core.utils.btc_based.core.PrivateKey
 import com.lumiwallet.lumi_core.domain.btcSigning.CalculateFeeUseCase
 import com.lumiwallet.lumi_core.domain.entity.Input
 import com.lumiwallet.lumi_core.domain.entity.Output
@@ -80,7 +81,7 @@ class BchTransactionRepository : BtcTransactionRepository {
                     input.txOutputN,
                     input.script,
                     input.value,
-                    PrivateKey.ofWif(input.keyAsWif)
+                    PrivateKey.ofWif(input.keyAsWif, MainNetParams)
                 )
             )
         }

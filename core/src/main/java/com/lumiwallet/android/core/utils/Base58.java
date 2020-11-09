@@ -1,7 +1,7 @@
 package com.lumiwallet.android.core.utils;
 
 
-import com.lumiwallet.android.core.bitcoin.core.AddressFormatException;
+import com.lumiwallet.android.core.utils.btc_based.core.AddressFormatException;
 
 import java.math.BigInteger;
 import java.util.Arrays;

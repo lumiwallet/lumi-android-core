@@ -7,14 +7,13 @@
     android:clickable="true"
     android:background="?selectableItemBackground">
 
-
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:barrierDirection="right"
         app:layout_constraintStart_toStartOf="parent"
-        app:constraint_referenced_ids="tvSequenceTitle, tvAddressBTCTitle, tvAddressEosTitle, @+id/tvPublicKeyTitle, tvPrivateKeyTitle"/>
+        app:constraint_referenced_ids="tvSequenceTitle, tvAddressBTCTitle, tvAddressDogeTitle, tvAddressEosTitle, @+id/tvPublicKeyTitle, tvPrivateKeyTitle"/>
 
     <TextView
         android:id="@+id/tvSequenceTitle"
@@ -37,6 +36,16 @@
         app:layout_constraintTop_toBottomOf="@+id/tvSequence" />
 
     <TextView
+        android:id="@+id/tvAddressDogeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/view_key_doge_address"
+        style="@style/smallGrayTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddressBTC" />
+
+    <TextView
         android:id="@+id/tvAddressEosTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +53,7 @@
         android:text="@string/view_key_eos_address"
         style="@style/smallGrayTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddressBTC" />
+        app:layout_constraintTop_toBottomOf="@+id/tvAddressDoge" />
 
     <TextView
         android:id="@+id/tvPublicKeyTitle"
@@ -87,6 +96,17 @@
         app:layout_constraintStart_toEndOf="@+id/barrier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvAddressBTCTitle" />
+
+    <TextView
+        android:id="@+id/tvAddressDoge"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        style="@style/smallBlackTextView"
+        app:layout_constraintStart_toEndOf="@+id/barrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvAddressDogeTitle" />
 
     <TextView
         android:id="@+id/tvAddressEos"

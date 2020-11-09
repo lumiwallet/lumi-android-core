@@ -1,6 +1,6 @@
 package com.lumiwallet.android.core.crypto.hd
 
-import com.lumiwallet.android.core.bitcoin.core.NetworkParameters
+import com.lumiwallet.android.core.utils.btc_based.core.NetworkParameters
 import java.util.*
 
 class Account internal constructor(params: NetworkParameters, wKey: DeterministicKey, child: Int) {

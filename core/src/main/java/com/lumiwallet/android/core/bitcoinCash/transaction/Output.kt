@@ -1,15 +1,13 @@
 package com.lumiwallet.android.core.bitcoinCash.transaction
 
-import com.lumiwallet.android.core.bitcoinCash.constant.ErrorMessages
-import com.lumiwallet.android.core.bitcoinCash.types.ULong
-import com.lumiwallet.android.core.bitcoinCash.types.VarInt
-import com.lumiwallet.android.core.bitcoinCash.util.ByteBuffer
-import com.lumiwallet.android.core.bitcoinCash.util.ValidationUtils.isBase58
-import com.lumiwallet.android.core.bitcoinCash.util.ValidationUtils.isEmpty
 import com.lumiwallet.android.core.utils.Base58
-import com.lumiwallet.android.core.utils.Sha256Hash
+import com.lumiwallet.android.core.utils.btc_based.ByteBuffer
+import com.lumiwallet.android.core.utils.btc_based.ErrorMessages
+import com.lumiwallet.android.core.utils.btc_based.ValidationUtils.isBase58
+import com.lumiwallet.android.core.utils.btc_based.ValidationUtils.isEmpty
+import com.lumiwallet.android.core.utils.btc_based.types.ULong
+import com.lumiwallet.android.core.utils.btc_based.types.VarInt
 import org.bouncycastle.util.encoders.Hex
-import java.util.*
 
 enum class OutputType(val desc: String) {
     CUSTOM("Custom"),
@@ -18,9 +16,9 @@ enum class OutputType(val desc: String) {
 
 
 internal class Output(
-        val satoshi: Long,
-        private val destination: String,
-        private val type: OutputType
+    val satoshi: Long,
+    private val destination: String,
+    private val type: OutputType
 ) {
 
     private val decodedAddress: ByteArray
@@ -80,20 +78,5 @@ internal class Output(
         }
     }
 
-    private fun decodeAndValidateAddress(base58: String): ByteArray {
-
-        val decoded = Base58.decode(base58)
-
-        val payload = Arrays.copyOfRange(decoded, 0, decoded.size - 4)
-        val checksum = Arrays.copyOfRange(decoded, decoded.size - 4, decoded.size)
-
-        val shaOfSha = Sha256Hash.hashTwice(payload) ?: byteArrayOf()
-
-        for (i in 0..3) {
-            require(shaOfSha[i] == checksum[i]) { "Wrong checksum" }
-        }
-
-        return payload
-
-    }
+    private fun decodeAndValidateAddress(base58: String): ByteArray = Base58.decodeChecked(base58)
 }

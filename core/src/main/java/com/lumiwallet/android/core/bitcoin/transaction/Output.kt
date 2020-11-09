@@ -1,15 +1,15 @@
 package com.lumiwallet.android.core.bitcoin.transaction
 
-import com.lumiwallet.android.core.bitcoin.constant.ErrorMessages
 import com.lumiwallet.android.core.bitcoin.core.SegwitAddress
 import com.lumiwallet.android.core.bitcoin.params.MainNetParams
 import com.lumiwallet.android.core.bitcoin.script.ScriptType
-import com.lumiwallet.android.core.bitcoin.types.ULong
-import com.lumiwallet.android.core.bitcoin.types.VarInt
-import com.lumiwallet.android.core.bitcoin.util.ByteBuffer
-import com.lumiwallet.android.core.bitcoin.util.ValidationUtils.isBase58
-import com.lumiwallet.android.core.bitcoin.util.ValidationUtils.isEmpty
 import com.lumiwallet.android.core.utils.Base58
+import com.lumiwallet.android.core.utils.btc_based.ByteBuffer
+import com.lumiwallet.android.core.utils.btc_based.ErrorMessages
+import com.lumiwallet.android.core.utils.btc_based.ValidationUtils.isBase58
+import com.lumiwallet.android.core.utils.btc_based.ValidationUtils.isEmpty
+import com.lumiwallet.android.core.utils.btc_based.types.ULong
+import com.lumiwallet.android.core.utils.btc_based.types.VarInt
 import com.lumiwallet.android.core.utils.hex
 
 

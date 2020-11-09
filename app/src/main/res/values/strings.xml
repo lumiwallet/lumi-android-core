@@ -19,6 +19,7 @@
     <string name="fragment_main_create_btc_tx">BTC transaction</string>
     <string name="fragment_main_create_eos_tx">EOS transaction</string>
     <string name="fragment_main_create_bch_tx">BCH transaction</string>
+    <string name="fragment_main_create_doge_tx">DOGE transaction</string>
     <string name="fragment_main_about">About Lumi</string>
     <string name="fragment_main_generate">NIST SP 800–22</string>
     <string name="bottom_sheet_mnemonic_words_title">Mnemonic words count</string>
@@ -72,7 +73,9 @@
 
     <string name="fragment_add_input_add_input">Add input</string>
     <string name="fragment_add_input_address">Legacy bitcoin address</string>
+    <string name="fragment_add_input_doge_address">Dogecoin address</string>
     <string name="fragment_add_input_address_hint">Enter bitcoin address</string>
+    <string name="fragment_add_input_doge_address_hint">Enter dogecoin address</string>
     <string name="fragment_add_input_amount">Amount in satoshi</string>
     <string name="fragment_add_input_output_n">Output N</string>
     <string name="fragment_add_input_scrip">Script data (hex)</string>
@@ -85,11 +88,14 @@
     <string name="fragment_edit_input_save">save changes</string>
 
     <string name="fragment_add_output_add_output">Add output</string>
+    <string name="fragment_add_output_doge_address">Doge address</string>
     <string name="fragment_add_output_address">Legacy bitcoin address</string>
+    <string name="fragment_add_output_doge_address_hint">Enter dogecoin address</string>
     <string name="fragment_add_output_address_hint">Enter bitcoin address</string>
     <string name="fragment_add_output_amount">Amount in satoshi</string>
 
     <string name="view_transaction_signed_title">BTC transaction</string>
+    <string name="view_doge_transaction_signed_title">DOGE transaction</string>
     <string name="view_transaction_signed_hash">hash:</string>
     <string name="view_transaction_signed_raw_tx">raw tx:</string>
     <string name="view_transaction_signed_share">Share</string>
@@ -106,6 +112,7 @@
     
     <string name="view_key_sequence">Sequence:</string>
     <string name="view_key_btc_address">Address BTC:</string>
+    <string name="view_key_doge_address">Address DOGE:</string>
     <string name="view_key_eos_address">Address EOS:</string>
     <string name="view_key_public">pub:</string>
     <string name="view_key_private">priv:</string>

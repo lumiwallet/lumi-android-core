@@ -1,12 +1,12 @@
 package com.lumiwallet.android.core.bitcoinCash.transaction
 
-import com.lumiwallet.android.core.bitcoinCash.constant.ErrorMessages
 import com.lumiwallet.android.core.bitcoinCash.constant.SigHashType
-import com.lumiwallet.android.core.bitcoinCash.core.PrivateKey
-import com.lumiwallet.android.core.bitcoinCash.types.UInt
-import com.lumiwallet.android.core.bitcoinCash.types.VarInt
-import com.lumiwallet.android.core.bitcoinCash.util.ByteBuffer
 import com.lumiwallet.android.core.utils.Sha256Hash
+import com.lumiwallet.android.core.utils.btc_based.ByteBuffer
+import com.lumiwallet.android.core.utils.btc_based.ErrorMessages
+import com.lumiwallet.android.core.utils.btc_based.core.PrivateKey
+import com.lumiwallet.android.core.utils.btc_based.types.UInt
+import com.lumiwallet.android.core.utils.btc_based.types.VarInt
 import java.util.*
 
 class TransactionBuilder private constructor() {

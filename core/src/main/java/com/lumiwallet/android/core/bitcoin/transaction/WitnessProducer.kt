@@ -1,9 +1,9 @@
 package com.lumiwallet.android.core.bitcoin.transaction
 
 import com.lumiwallet.android.core.bitcoin.constant.SigHashType
-import com.lumiwallet.android.core.bitcoin.core.PrivateKey
-import com.lumiwallet.android.core.bitcoin.types.OpSize
-import com.lumiwallet.android.core.bitcoin.util.ByteBuffer
+import com.lumiwallet.android.core.utils.btc_based.ByteBuffer
+import com.lumiwallet.android.core.utils.btc_based.core.PrivateKey
+import com.lumiwallet.android.core.utils.btc_based.types.OpSize
 
 object WitnessProducer {
 

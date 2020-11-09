@@ -1,11 +1,11 @@
 package com.lumiwallet.android.core.bitcoinCash.transaction
 
 import com.lumiwallet.android.core.bitcoinCash.constant.OpCodes
-import com.lumiwallet.android.core.bitcoinCash.types.OpSize
-import com.lumiwallet.android.core.bitcoinCash.types.UInt
-import com.lumiwallet.android.core.bitcoinCash.types.ULong
-import com.lumiwallet.android.core.bitcoinCash.util.ByteBuffer
 import com.lumiwallet.android.core.utils.Sha256Hash
+import com.lumiwallet.android.core.utils.btc_based.ByteBuffer
+import com.lumiwallet.android.core.utils.btc_based.types.OpSize
+import com.lumiwallet.android.core.utils.btc_based.types.UInt
+import com.lumiwallet.android.core.utils.btc_based.types.ULong
 
 object SigPreimageProducer {
 
@@ -68,6 +68,5 @@ object SigPreimageProducer {
         preimage.append(*Sha256Hash.hashTwice(outs.bytes))
 
         return preimage.bytes()
-
     }
 }

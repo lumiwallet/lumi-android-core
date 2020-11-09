@@ -5,9 +5,11 @@ import com.lumiwallet.lumi_core.domain.entity.Output
 
 interface Navigator {
     fun navigateToDerivationFragment(mnemonic: MutableList<String>)
+
     fun navigateToBtcSigningFragment()
     fun navigateToEosSigningFragment()
     fun navigateToBchSigningFragment()
+    fun navigateToDogeSigningFragment()
 
     fun navigateToAddInputFragment()
     fun navigateToAddOutputFragment()
@@ -18,6 +20,11 @@ interface Navigator {
     fun navigateToAddBchOutputFragment()
     fun navigateToEditBchInputFragment(input: InputViewModel)
     fun navigateToEditBchOutputFragment(output: Output)
+
+    fun navigateToAddDogeInputFragment()
+    fun navigateToAddDogeOutputFragment()
+    fun navigateToEditDogeInputFragment(input: InputViewModel)
+    fun navigateToEditDogeOutputFragment(output: Output)
 
     fun navigateToGenerateRandomBytesFragment()
     fun navigateToAboutScreen()

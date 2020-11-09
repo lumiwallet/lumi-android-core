@@ -38,6 +38,7 @@ class KeysListAdapter(
             with(itemView) {
                 tvSequence.text = item.sequence.toString()
                 tvAddressBTC.text = item.btcAddress
+                tvAddressDoge.text = item.dogeAddress
                 tvAddressEos.text = item.eosAddress
                 tvPublicKey.text = item.pubKey
                 tvPrivateKey.text = item.privKey
