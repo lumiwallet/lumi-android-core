@@ -1,8 +1,7 @@
-package com.lumiwallet.android.core.bitcoinCash.core
-
+package com.lumiwallet.android.core.bitcoinVault.core
 
 import com.google.common.base.Objects
-import com.lumiwallet.android.core.bitcoinCash.script.ScriptType
+import com.lumiwallet.android.core.bitcoinVault.script.ScriptType
 import com.lumiwallet.android.core.crypto.ECKey
 import com.lumiwallet.android.core.utils.Base58
 import com.lumiwallet.android.core.utils.btc_based.core.Address
@@ -18,11 +17,11 @@ class LegacyAddress @Throws(AddressFormatException::class) private constructor(
     companion object {
 
         @Throws(AddressFormatException::class)
-        fun fromPubKeyHash(params: NetworkParameters, hash160: ByteArray): LegacyAddress =
-            LegacyAddress(params, false, hash160)
+        fun fromPubKeyHash(params: NetworkParameters, hash160: ByteArray, p2sh: Boolean = false): LegacyAddress =
+            LegacyAddress(params, p2sh, hash160)
 
-        fun fromKey(params: NetworkParameters, key: ECKey): LegacyAddress {
-            return fromPubKeyHash(params, key.pubKeyHash)
+        fun fromKey(params: NetworkParameters, key: ECKey, p2sh: Boolean = false): LegacyAddress {
+            return fromPubKeyHash(params, key.pubKeyHash, p2sh)
         }
     }
 

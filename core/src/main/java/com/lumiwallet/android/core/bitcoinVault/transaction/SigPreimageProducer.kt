@@ -1,6 +1,6 @@
-package com.lumiwallet.android.core.bitcoin.transaction
+package com.lumiwallet.android.core.bitcoinVault.transaction
 
-import com.lumiwallet.android.core.bitcoin.constant.OpCodes
+import com.lumiwallet.android.core.bitcoinVault.constant.OpCodes
 import com.lumiwallet.android.core.utils.Sha256Hash
 import com.lumiwallet.android.core.utils.btc_based.ByteBuffer
 import com.lumiwallet.android.core.utils.btc_based.types.OpSize

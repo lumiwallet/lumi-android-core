@@ -70,9 +70,9 @@ class PrivateKey : Serializable, Cloneable, Comparable<PrivateKey> {
             wif: String,
             params: NetworkParameters
         ) {
-            val prefixWifComp = params.dumpedPrivateKeyHeader.toByte()
+            val prefixWifComp = params.dumpedPrivateKeyHeader.toUByte()
 
-            val decodedPrefix = Base58.decode(wif)[0]
+            val decodedPrefix = Base58.decode(wif)[0].toUByte()
 
             val prefix = wif[0]
             val prefixWif: List<Char> = when (params) {
@@ -84,7 +84,7 @@ class PrivateKey : Serializable, Cloneable, Comparable<PrivateKey> {
                 }
 
             }
-            check(prefixWif.contains(prefix) || decodedPrefix == prefixWifComp) {
+            check( decodedPrefix == prefixWifComp) {
                 "WIF must start with " + prefixWif + " (for uncompressed) " +
                         "or " + prefixWifComp + " (for compressed)"
             }
