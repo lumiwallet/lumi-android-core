@@ -61,25 +61,17 @@ open class ECKey {
         }
 
         fun compressPoint(point: LazyECPoint): LazyECPoint {
-            return if (point.isCompressed) point else LazyECPoint(compressPoint(point.get()))
-        }
-
-        fun decompressPoint(point: ECPoint): ECPoint {
-            return getPointWithCompression(point, false)
-        }
-
-        fun decompressPoint(point: LazyECPoint): LazyECPoint {
-            return if (!point.isCompressed) point else LazyECPoint(decompressPoint(point.get()))
+            return /*if (point.isCompressed) */point //else LazyECPoint(compressPoint(point.get()))
         }
 
         private fun getPointWithCompression(point: ECPoint, compressed: Boolean): ECPoint {
             var point = point
-            if (point.isCompressed == compressed)
-                return point
+            /*if (point.isCompressed == compressed)
+                return point*/
             point = point.normalize()
             val x = point.affineXCoord.toBigInteger()
             val y = point.affineYCoord.toBigInteger()
-            return CURVE.curve.createPoint(x, y, compressed)
+            return CURVE.curve.createPoint(x, y)
         }
 
         @JvmOverloads
