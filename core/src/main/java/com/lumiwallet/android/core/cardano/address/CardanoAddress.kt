@@ -8,6 +8,12 @@ class CardanoAddress(
 
 ) {
     var address: String = ""
+        get() {
+            if (field.isEmpty()) {
+                field = cardanoMainNetHRP + cardanoPrefixSplitSimbol + Bech32.encode(byteArrayOf(prefix) + payload, cardanoMainNetHRP)
+            }
+            return field
+        }
 
 
     companion object {
@@ -29,7 +35,6 @@ class CardanoAddress(
         }
     }
 
-    override fun toString(): String =
-        cardanoMainNetHRP + cardanoPrefixSplitSimbol + Bech32.encode(payload + byteArrayOf(prefix), cardanoMainNetHRP)
+    override fun toString(): String = address
 
 }
