@@ -42,8 +42,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
 
     implementation 'org.bouncycastle:bcprov-jdk15on:1.65'
-
     api 'com.google.guava:guava:28.1-android'
-
+    implementation 'com.upokecenter:cbor:4.4.4'
     implementation 'com.google.code.gson:gson:2.8.6'
 }
