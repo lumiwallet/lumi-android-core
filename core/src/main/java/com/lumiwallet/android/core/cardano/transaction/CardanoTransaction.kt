@@ -7,10 +7,11 @@ import java.io.ByteArrayOutputStream
 class CardanoTransaction(
     val inputs: List<Input>,
     val outputs: List<Output>,
-    val signatures: List<ByteArray>,
     val fee: Long,
     val ttl: Long
 ) {
+
+    val signatures: MutableList<ByteArray> = mutableListOf()
 
     class Input (
         var hash: ByteArray,
@@ -23,6 +24,10 @@ class CardanoTransaction(
         var payload: ByteArray,
         var amount: Long
     )
+
+    fun addSignature(signature: ByteArray) {
+        signatures.add(signature)
+    }
 
     fun raw(): ByteArray {
         val stream = ByteArrayOutputStream()
