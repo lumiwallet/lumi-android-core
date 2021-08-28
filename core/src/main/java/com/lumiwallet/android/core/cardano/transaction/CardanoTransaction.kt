@@ -130,15 +130,16 @@ class CardanoTransaction(
             cborSignatures.Add(it)
         }
 
-        signatures.forEachIndexed { index, signature ->
-            signatureMap.Add(
-                index,
+        val signaturesArray = CBORObject.NewArray()
+        signatures.forEach{ signature ->
+            signaturesArray.Add(
                 CBORObject
                     .NewArray()
                     .Add(signature.first)
                     .Add(signature.second)
             )
         }
+        signatureMap.Add(0, signaturesArray)
 
 
         tx.Add(txMap)
