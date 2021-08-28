@@ -11,8 +11,6 @@ class CardanoTransaction(
     val ttl: Long
 ) {
 
-    val signatures: MutableList<ByteArray> = mutableListOf()
-
     class Input (
         var hash: ByteArray,
         var outputIndex: Long,
@@ -22,8 +20,17 @@ class CardanoTransaction(
 
     class Output (
         var payload: ByteArray,
-        var amount: Long
-    )
+        var amount: Long,
+        val tokens: List<TokenOutput>
+    ) {
+        data class TokenOutput (
+            var tokenName: String,
+            val tokenAmount: Long,
+            val polocyId: ByteArray
+        )
+    }
+
+    val signatures: MutableList<ByteArray> = mutableListOf()
 
     fun addSignature(signature: ByteArray) {
         signatures.add(signature)
@@ -41,11 +48,30 @@ class CardanoTransaction(
         val cborOutputs = CBORObject.NewArray()
 
         outputs.forEach {
-            cborOutputs.Add(CBORObject.NewArray().Add(it.payload).Add(it.amount))
+            if (it.tokens.isEmpty()) {
+                cborOutputs.Add(CBORObject.NewArray().Add(it.payload).Add(it.amount))
+            } else {
+                val output = CBORObject.NewArray()
+                output.Add(it.payload)
+                val amounts = CBORObject.NewArray()
+                amounts.Add(it.amount)
+                for (token in it.tokens) {
+                    amounts.Add(
+                        CBORObject.NewMap()
+                            .Add(
+                                token.polocyId,
+                                CBORObject.NewMap()
+                                    .Add(token.tokenName.toByteArray(), token.tokenAmount)
+                            )
+                    )
+                }
+                output.Add(amounts)
+                cborOutputs.Add(output)
+            }
         }
 
-        txMap.Add(0, inputs)
-            .Add(1, outputs)
+        txMap.Add(0, cborInputs)
+            .Add(1, cborOutputs)
             .Add(2, fee)
             .Add(3, ttl)
             .WriteTo(stream)
@@ -54,8 +80,6 @@ class CardanoTransaction(
     }
 
     fun build(): ByteArray {
-        val nul: ByteArray? = null
-
         val stream = ByteArrayOutputStream()
 
         val tx = CBORObject.NewArray()
@@ -69,11 +93,31 @@ class CardanoTransaction(
         val cborOutputs = CBORObject.NewArray()
 
         outputs.forEach {
-            cborOutputs.Add(CBORObject.NewArray().Add(it.payload).Add(it.amount))
+            if (it.tokens.isEmpty()) {
+                cborOutputs.Add(CBORObject.NewArray().Add(it.payload).Add(it.amount))
+            } else {
+                val output = CBORObject.NewArray()
+                    output.Add(it.payload)
+                val amounts = CBORObject.NewArray()
+                amounts.Add(it.amount)
+                for (token in it.tokens) {
+                    amounts.Add(
+                        CBORObject.NewMap()
+                            .Add(
+                                token.polocyId,
+                                CBORObject.NewMap()
+                                    .Add(token.tokenName.toByteArray(), token.tokenAmount)
+                            )
+                    )
+                }
+                output.Add(amounts)
+                cborOutputs.Add(output)
+            }
+
         }
 
-        txMap.Add(0, inputs)
-            .Add(1, outputs)
+        txMap.Add(0, cborInputs)
+            .Add(1, cborOutputs)
             .Add(2, fee)
             .Add(3, ttl)
 
@@ -94,7 +138,7 @@ class CardanoTransaction(
 
         tx.Add(txMap)
             .Add(signatureMap)
-            .Add(nul)
+            .Add(CBORObject.Null)
             .WriteTo(stream)
 
         return stream.toByteArray()
