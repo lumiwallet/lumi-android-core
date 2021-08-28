@@ -30,9 +30,10 @@ class CardanoTransaction(
         )
     }
 
-    val signatures: MutableList<ByteArray> = mutableListOf()
+    // first - public key, second - signature
+    val signatures: MutableList<Pair<ByteArray, ByteArray>> = mutableListOf()
 
-    fun addSignature(signature: ByteArray) {
+    fun addSignature(signature: Pair<ByteArray, ByteArray>) {
         signatures.add(signature)
     }
 
@@ -129,12 +130,16 @@ class CardanoTransaction(
             cborSignatures.Add(it)
         }
 
-        signatureMap.Add(
-            0,
-            CBORObject
-                .NewArray()
-                .Add(signatures)
-        )
+        signatures.forEachIndexed { index, signature ->
+            signatureMap.Add(
+                index,
+                CBORObject
+                    .NewArray()
+                    .Add(signature.first)
+                    .Add(signature.second)
+            )
+        }
+
 
         tx.Add(txMap)
             .Add(signatureMap)
