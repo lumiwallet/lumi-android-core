@@ -26,3 +26,11 @@ fun ByteArray.blake2b224(): ByteArray {
     digest.doFinal(hash, 0)
     return hash
 }
+
+fun ByteArray.blake2b256(): ByteArray {
+    val digest = Blake2bDigest(256)
+    digest.update(this, 0, this.size)
+    val hash = ByteArray(32)
+    digest.doFinal(hash, 0)
+    return hash
+}
