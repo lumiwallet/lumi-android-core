@@ -1,6 +1,7 @@
 package com.lumiwallet.android.core.cardano.transaction
 
 import com.lumiwallet.android.core.utils.blake2b256
+import com.lumiwallet.android.core.utils.sumByLong
 import com.upokecenter.cbor.CBORObject
 import java.io.ByteArrayOutputStream
 
@@ -19,10 +20,16 @@ class CardanoTransaction(
     )
 
     class Output (
+        var type: Type,
         var payload: ByteArray,
         var amount: Long,
         val tokens: List<TokenOutput>
     ) {
+
+        enum class Type {
+            ORDINARY, CHANGE
+        }
+
         data class TokenOutput (
             var tokenName: String,
             val tokenAmount: Long,
@@ -39,20 +46,13 @@ class CardanoTransaction(
     private var feePerByte: Long = 0
 
     val fee: Long
-    get() = baseFee + (buildFakeTx().size * feePerByte)
+    get() = baseFee + (buildFakeTx().size * feePerByte) + 100
 
     val hash: ByteArray
     get() {
-        val data = CBORObject.NewMap()
-        val cborInputs = encodeInputs()
-        val cborOutputs = encodeOutputs()
+        val data = encodeData()
         val stream = ByteArrayOutputStream()
-
-        data.Add(0, cborInputs)
-            .Add(1, cborOutputs)
-            .Add(2, fee)
-            .Add(3, ttl)
-            .WriteTo(stream)
+        data.WriteTo(stream)
 
         return stream.toByteArray().blake2b256()
     }
@@ -70,17 +70,9 @@ class CardanoTransaction(
 
     fun build(): ByteArray {
         val tx = CBORObject.NewArray()
-        val data = CBORObject.NewMap()
-        val cborInputs = encodeInputs()
-        val cborOutputs = encodeOutputs()
-
-        data.Add(0, cborInputs)
-            .Add(1, cborOutputs)
-            .Add(2, fee)
-            .Add(3, ttl)
-
-        val stream = ByteArrayOutputStream()
+        val data = encodeData()
         val witness = encodeWitness()
+        val stream = ByteArrayOutputStream()
         tx.Add(data)
             .Add(witness)
             .Add(CBORObject.Null)
@@ -92,12 +84,10 @@ class CardanoTransaction(
     private fun buildFakeTx(): ByteArray {
         val tx = CBORObject.NewArray()
         val data = CBORObject.NewMap()
-        val cborInputs = encodeInputs()
-        val cborOutputs = encodeOutputs()
 
-        data.Add(0, cborInputs)
-            .Add(1, cborOutputs)
-            .Add(2, 100000)
+        data.Add(0, encodeInputs())
+            .Add(1, encodeOutputs())
+            .Add(2, 180000)
             .Add(3, 35000000)
 
         val cborWitness = CBORObject.NewMap()
@@ -122,6 +112,18 @@ class CardanoTransaction(
             .Add(CBORObject.Null)
             .WriteTo(stream)
         return stream.toByteArray()
+    }
+
+    private fun encodeData(): CBORObject {
+        val fee = fee
+        val cborInputs = encodeInputs()
+        calculateChangeAmount()
+        val cborOutputs = encodeOutputs()
+        val data = CBORObject.NewMap()
+        return data.Add(0, cborInputs)
+            .Add(1, cborOutputs)
+            .Add(2, fee)
+            .Add(3, ttl)
     }
 
     private fun encodeInputs(): CBORObject = CBORObject.NewArray().apply {
@@ -164,6 +166,26 @@ class CardanoTransaction(
                 output.Add(it.payload)
                 output.Add(amounts)
                 Add(output)
+            }
+        }
+    }
+
+    private fun calculateChangeAmount() {
+        val changeOutputs = outputs.filter { it.type == Output.Type.CHANGE }
+        when {
+            changeOutputs.size > 1 -> throw IllegalStateException()
+            changeOutputs.isEmpty() -> return
+            else -> {
+                changeOutputs.first().let { changeOutput ->
+                    val inputsAmount = inputs.sumByLong { input -> input.amount }
+                    val outputsAmount = outputs
+                        .filter { output -> output.type == Output.Type.ORDINARY }
+                        .sumByLong { output -> output.amount }
+                    val changeAmount = inputsAmount - outputsAmount - fee
+                    if (changeAmount < 0)
+                        throw IllegalStateException()
+                    changeOutput.amount = changeAmount
+                }
             }
         }
     }
