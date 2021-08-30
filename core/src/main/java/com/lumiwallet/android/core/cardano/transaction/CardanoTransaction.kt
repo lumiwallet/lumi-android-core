@@ -117,7 +117,6 @@ class CardanoTransaction(
     private fun encodeData(): CBORObject {
         val fee = fee
         val cborInputs = encodeInputs()
-        calculateChangeAmount()
         val cborOutputs = encodeOutputs()
         val data = CBORObject.NewMap()
         return data.Add(0, cborInputs)
@@ -170,7 +169,10 @@ class CardanoTransaction(
         }
     }
 
-    private fun calculateChangeAmount() {
+    /**
+     * moves all available funds to the output with [Output.type] == [Output.Type.CHANGE]
+     * */
+    fun calculateChangeAmount() {
         val changeOutputs = outputs.filter { it.type == Output.Type.CHANGE }
         when {
             changeOutputs.size > 1 -> throw IllegalStateException()
