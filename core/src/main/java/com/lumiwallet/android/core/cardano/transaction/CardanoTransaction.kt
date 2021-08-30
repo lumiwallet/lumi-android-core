@@ -46,7 +46,7 @@ class CardanoTransaction(
     private var feePerByte: Long = 0
 
     val fee: Long
-    get() = baseFee + (buildFakeTx().size * feePerByte) + 100
+    get() = baseFee + ((buildFakeTx().size + 21) * feePerByte)
 
     val hash: ByteArray
     get() {
