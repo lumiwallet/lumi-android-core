@@ -150,15 +150,14 @@ class CardanoTransaction(
             } else {
                 val amounts = CBORObject.NewArray().apply {
                     Add(it.amount)
+                    val tokenMap = CBORObject.NewMap()
                     for (token in it.tokens) {
-                        Add(
-                            CBORObject.NewMap().Add(
-                                token.polocyId,
-                                CBORObject.NewMap()
-                                    .Add(token.tokenName.toByteArray(), token.tokenAmount)
-                            )
+                        tokenMap.Add(
+                            token.polocyId,
+                            CBORObject.NewMap().Add(token.tokenName.toByteArray(), token.tokenAmount)
                         )
                     }
+                    Add(tokenMap)
 
                 }
                 val output = CBORObject.NewArray()
