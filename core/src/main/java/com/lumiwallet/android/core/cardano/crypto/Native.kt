@@ -2,7 +2,6 @@ package com.lumiwallet.android.core.cardano.crypto
 
 object Native {
 
-    external fun stringFromJNI(): String
     external fun cardanoCryptoEd25519publickey(
         privateKey: ByteArray
     ): ByteArray

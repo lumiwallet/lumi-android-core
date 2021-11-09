@@ -60,9 +60,8 @@ class CardanoKey(
             val password = ""
             val salt = entropy
 
-            val hmac: HMac = HMac(SHA512Digest())
+            val hmac = HMac(SHA512Digest())
             val hLen = hmac.macSize;
-            // Check key length
             if (KEY_LENGTH + CHAINCODE_LENGTH > (Math.pow(
                     2.0,
                     32.0
@@ -75,11 +74,10 @@ class CardanoKey(
             val B = K + U
             val workingArray = ByteArray(K + U + 4)
 
-            // Initialize PRF
             val macParams: CipherParameters = KeyParameter(password.toByteArray())
+
             hmac.init(macParams)
 
-            // Perform iterations
             var kpos = 0
             var blk = 1
             while (kpos < KEY_LENGTH + CHAINCODE_LENGTH) {
@@ -118,9 +116,9 @@ class CardanoKey(
 
             val prvKey = derivedKey.take(KEY_LENGTH).toByteArray()
 
-            prvKey[0] = prvKey.get(0) and 248.toByte()
-            prvKey[31] = prvKey.get(31) and 0x1F
-            prvKey[31] = prvKey.get(31) or 64
+            prvKey[0] = prvKey[0] and 248.toByte()
+            prvKey[31] = prvKey[31] and 0x1F
+            prvKey[31] = prvKey[31] or 64
 
             val cc = derivedKey.takeLast(CHAINCODE_LENGTH).toByteArray()
 

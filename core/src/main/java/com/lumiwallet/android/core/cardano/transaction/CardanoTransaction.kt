@@ -31,10 +31,14 @@ class CardanoTransaction(
         }
 
         data class TokenOutput (
-            var tokenName: String,
-            val tokenAmount: Long,
-            val polocyId: ByteArray
-        )
+            val polocyId: ByteArray,
+            val tokens: List<Token>
+        ) {
+            data class Token (
+                var tokenName: String,
+                val tokenAmount: Long,
+            )
+        }
     }
 
     class Signature(
@@ -148,22 +152,22 @@ class CardanoTransaction(
             if (it.tokens.isEmpty()) {
                 Add(CBORObject.NewArray().Add(it.payload).Add(it.amount))
             } else {
-                val amounts = CBORObject.NewArray().apply {
+                val cborAmount = CBORObject.NewArray().apply {
                     Add(it.amount)
-                    val tokenMap = CBORObject.NewMap()
-                    for (token in it.tokens) {
-                        tokenMap.Add(
-                            token.polocyId,
-                            CBORObject.NewMap().Add(token.tokenName.toByteArray(), token.tokenAmount)
-                        )
+                    val cborTokensMap = CBORObject.NewMap()
+                    for (tokenOutput in it.tokens) {
+                        val cborTokens = CBORObject.NewMap()
+                        for (tokenName in tokenOutput.tokens) {
+                            cborTokens.Add(tokenName.tokenName.toByteArray(), tokenName.tokenAmount)
+                        }
+                        cborTokensMap.Add(tokenOutput.polocyId, cborTokens)
                     }
-                    Add(tokenMap)
-
+                    Add(cborTokensMap)
                 }
-                val output = CBORObject.NewArray()
-                output.Add(it.payload)
-                output.Add(amounts)
-                Add(output)
+                val cborOutput = CBORObject.NewArray()
+                cborOutput.Add(it.payload)
+                cborOutput.Add(cborAmount)
+                Add(cborOutput)
             }
         }
     }

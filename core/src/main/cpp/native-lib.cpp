@@ -4,16 +4,6 @@
 #include "sha512_hmac.h"
 #include "sign.h"
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_lumiwallet_android_core_cardano_crypto_Native_stringFromJNI(
-        JNIEnv* env,
-        jobject thiz
-) {
-    std::string hello = "Hello from C++";
-    return env->NewStringUTF(hello.c_str());
-}
-
-
 extern "C"
 JNIEXPORT jbyteArray JNICALL
 Java_com_lumiwallet_android_core_cardano_crypto_Native_cardanoCryptoEd25519publickey(
