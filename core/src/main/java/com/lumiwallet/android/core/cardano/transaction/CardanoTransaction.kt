@@ -32,11 +32,11 @@ class CardanoTransaction(
 
         data class TokenOutput (
             val polocyId: ByteArray,
-            val tokens: List<Token>
+            val tokens: MutableList<Token>
         ) {
             data class Token (
                 var tokenName: String,
-                val tokenAmount: Long,
+                var tokenAmount: Long,
             )
         }
     }
