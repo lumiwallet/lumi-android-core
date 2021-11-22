@@ -15,7 +15,7 @@ class CardanoAddress(
                         cardanoMainNetHRP + cardanoPrefixSplitSimbol + Bech32.encode(byteArrayOf(prefix) + payload, cardanoMainNetHRP)
                     }
                     AddressType.STAKE -> {
-                        cardanoMainNetStakeHRP + cardanoPrefixSplitSimbol + Bech32.encode(byteArrayOf(prefix) + payload, cardanoMainNetHRP)
+                        cardanoMainNetStakeHRP + cardanoPrefixSplitSimbol + Bech32.encode(byteArrayOf(prefix) + payload, cardanoMainNetStakeHRP)
                     }
                 }
             }

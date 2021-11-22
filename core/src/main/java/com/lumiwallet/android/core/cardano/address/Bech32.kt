@@ -4,7 +4,6 @@ import com.lumiwallet.android.core.utils.BitsConverter
 import com.lumiwallet.android.core.utils.btc_based.core.AddressFormatException
 import java.util.*
 
-@Deprecated("Expanded hrp is hardcoded. Only for Cardano!")
 object Bech32 {
     /** The Bech32 character set for encoding.  */
     private const val CHARSET = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"
