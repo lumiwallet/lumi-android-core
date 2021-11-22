@@ -2,7 +2,6 @@ package com.lumiwallet.android.core.cardano.address
 
 import com.lumiwallet.android.core.utils.BitsConverter
 import com.lumiwallet.android.core.utils.btc_based.core.AddressFormatException
-import com.lumiwallet.android.core.utils.safeToByteArray
 import java.util.*
 
 @Deprecated("Expanded hrp is hardcoded. Only for Cardano!")
@@ -49,16 +48,23 @@ object Bech32 {
     }
 
     /** Expand a HRP for use in checksum computation.  */
-    private fun expandHrp(hrp: String): ByteArray {
-        return "030303030001040412".safeToByteArray()
-        /*val hrpLength = hrp.length
-        val ret = ByteArray(hrpLength + 1)
-        for (i in 0 until hrpLength) {
-            val c = hrp[i].toInt() and 0x7f // Limit to standard 7-bit ASCI
-            ret[i] = (c and 0x1f).toByte()
+    private fun expandHrp(hrpString: String): ByteArray {
+        val hrp = hrpString.toByteArray()
+        val buf1 = ByteArray(hrp.size)
+        val buf2 = ByteArray(hrp.size)
+        val mid = ByteArray(1)
+        for (i in hrp.indices) {
+            buf1[i] = (hrp[i].toInt() shr 5).toByte()
         }
-        ret[hrpLength] = 0
-        return ret*/
+        mid[0] = 0x00
+        for (i in hrp.indices) {
+            buf2[i] = (hrp[i].toInt() and 0x1f).toByte()
+        }
+        val ret = ByteArray(hrp.size * 2 + 1)
+        System.arraycopy(buf1, 0, ret, 0, buf1.size)
+        System.arraycopy(mid, 0, ret, buf1.size, mid.size)
+        System.arraycopy(buf2, 0, ret, buf1.size + mid.size, buf2.size)
+        return ret
     }
 
     /** Verify a checksum.  */
@@ -81,8 +87,6 @@ object Bech32 {
         return ret
     }
 
-    //TODO Expanded hrp is hardcoded. Only for Cardano "addr"
-    @Deprecated("Expanded hrp is hardcoded. Only for Cardano!")
     fun encode(pubKeyHash: ByteArray, hrpString: String): String {
         val payload = BitsConverter.convertBits(pubKeyHash, 0, pubKeyHash.size, 8, 5, true)
 
@@ -99,8 +103,6 @@ object Bech32 {
     }
 
     /** Decode a Bech32 string.  */
-    //TODO Expanded hrp is hardcoded. Only for Cardano "addr"
-    @Deprecated("Expanded hrp is hardcoded. Only for Cardano!")
     @Throws(AddressFormatException::class)
     fun decode(data: String, hrp: String): ByteArray {
         var lower = false
