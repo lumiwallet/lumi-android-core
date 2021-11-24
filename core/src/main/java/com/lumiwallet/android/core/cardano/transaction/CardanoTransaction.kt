@@ -48,6 +48,8 @@ class CardanoTransaction(
 
     private var baseFee: Long = 0
     private var feePerByte: Long = 0
+    private var claimRewardCbor: CBORObject? = null
+    private var stakingCbor: CBORObject? = null
 
     val fee: Long
     get() = baseFee + ((buildFakeTx().size + 32) * feePerByte)
@@ -72,6 +74,53 @@ class CardanoTransaction(
         this.feePerByte = feePerByte
     }
 
+    fun addClaimReward(rewardAmount: Long, stakePublicKeyHash: ByteArray) {
+        claimRewardCbor = CBORObject.NewMap()
+            .Add(stakePublicKeyHash, rewardAmount)
+    }
+
+    fun addRegistration(stakePublicKeyHash: ByteArray) {
+        stakingCbor = CBORObject.NewArray()
+            .Add(
+                CBORObject.NewArray()
+                    .Add(0)
+                    .Add(
+                        CBORObject.NewArray()
+                            .Add(0)
+                            .Add(stakePublicKeyHash)
+                    )
+            )
+    }
+
+    fun addDeregistration(stakePublicKeyHash: ByteArray) {
+        stakingCbor = CBORObject.NewArray()
+            .Add(
+                CBORObject.NewArray()
+                    .Add(1)
+                    .Add(
+                        CBORObject.NewArray()
+                            .Add(0)
+                            .Add(stakePublicKeyHash)
+                    )
+            )
+    }
+
+    fun addDelegation(stakePublicKeyHash: ByteArray, poolKeyHash: ByteArray) {
+        stakingCbor = CBORObject.NewArray()
+            .Add(
+                CBORObject.NewArray()
+                    .Add(2)
+                    .Add(
+                        CBORObject.NewArray()
+                            .Add(0)
+                            .Add(stakePublicKeyHash)
+                    )
+                    .Add(poolKeyHash)
+            )
+    }
+
+
+
     fun build(): ByteArray {
         val tx = CBORObject.NewArray()
         val data = encodeData()
@@ -93,6 +142,14 @@ class CardanoTransaction(
             .Add(1, encodeOutputs())
             .Add(2, 180000)
             .Add(3, 35000000)
+
+        claimRewardCbor?.let {
+            data.Add(5, it)
+        }
+
+        stakingCbor?.let {
+            data.Add(4, it)
+        }
 
         val cborWitness = CBORObject.NewMap()
         val cborSignatures = CBORObject.NewArray()
@@ -123,10 +180,20 @@ class CardanoTransaction(
         val cborInputs = encodeInputs()
         val cborOutputs = encodeOutputs()
         val data = CBORObject.NewMap()
-        return data.Add(0, cborInputs)
+        data.Add(0, cborInputs)
             .Add(1, cborOutputs)
             .Add(2, fee)
             .Add(3, ttl)
+
+        claimRewardCbor?.let {
+            data.Add(5, it)
+        }
+
+        stakingCbor?.let {
+            data.Add(4, it)
+        }
+
+        return data
     }
 
     private fun encodeInputs(): CBORObject = CBORObject.NewArray().apply {
