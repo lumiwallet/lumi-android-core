@@ -80,7 +80,10 @@ class CardanoTransaction(
     }
 
     fun addRegistration(stakePublicKeyHash: ByteArray) {
-        stakingCbor = CBORObject.NewArray()
+        if (stakingCbor == null) {
+            stakingCbor = CBORObject.NewArray()
+        }
+        stakingCbor!!
             .Add(
                 CBORObject.NewArray()
                     .Add(0)
@@ -93,7 +96,10 @@ class CardanoTransaction(
     }
 
     fun addDeregistration(stakePublicKeyHash: ByteArray) {
-        stakingCbor = CBORObject.NewArray()
+        if (stakingCbor == null) {
+            stakingCbor = CBORObject.NewArray()
+        }
+        stakingCbor!!
             .Add(
                 CBORObject.NewArray()
                     .Add(1)
@@ -106,7 +112,10 @@ class CardanoTransaction(
     }
 
     fun addDelegation(stakePublicKeyHash: ByteArray, poolKeyHash: ByteArray) {
-        stakingCbor = CBORObject.NewArray()
+        if (stakingCbor == null) {
+            stakingCbor = CBORObject.NewArray()
+        }
+        stakingCbor!!
             .Add(
                 CBORObject.NewArray()
                     .Add(2)
