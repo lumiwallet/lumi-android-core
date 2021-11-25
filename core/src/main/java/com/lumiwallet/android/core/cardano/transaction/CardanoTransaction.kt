@@ -50,6 +50,7 @@ class CardanoTransaction(
     private var feePerByte: Long = 0
     private var claimRewardCbor: CBORObject? = null
     private var stakingCbor: CBORObject? = null
+    private var fakeSignaturesForStaking = 0
 
     val fee: Long
     get() = baseFee + ((buildFakeTx().size + 32) * feePerByte)
@@ -83,6 +84,7 @@ class CardanoTransaction(
         if (stakingCbor == null) {
             stakingCbor = CBORObject.NewArray()
         }
+        fakeSignaturesForStaking = +1
         stakingCbor!!
             .Add(
                 CBORObject.NewArray()
@@ -99,6 +101,7 @@ class CardanoTransaction(
         if (stakingCbor == null) {
             stakingCbor = CBORObject.NewArray()
         }
+        fakeSignaturesForStaking = +1
         stakingCbor!!
             .Add(
                 CBORObject.NewArray()
@@ -115,6 +118,7 @@ class CardanoTransaction(
         if (stakingCbor == null) {
             stakingCbor = CBORObject.NewArray()
         }
+        fakeSignaturesForStaking = +1
         stakingCbor!!
             .Add(
                 CBORObject.NewArray()
@@ -172,6 +176,25 @@ class CardanoTransaction(
                     .Add(fakePublicKey)
                     .Add(fakeSignature)
             )
+        }
+        claimRewardCbor?.let {
+            cborSignatures.Add(
+                CBORObject
+                    .NewArray()
+                    .Add(fakePublicKey)
+                    .Add(fakeSignature)
+            )
+        }
+
+        stakingCbor?.let {
+            for (i in 0..fakeSignaturesForStaking) {
+                cborSignatures.Add(
+                    CBORObject
+                        .NewArray()
+                        .Add(fakePublicKey)
+                        .Add(fakeSignature)
+                )
+            }
         }
         cborWitness.Add(0, cborSignatures)
 
