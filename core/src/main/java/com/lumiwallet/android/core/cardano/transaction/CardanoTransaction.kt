@@ -53,7 +53,22 @@ class CardanoTransaction(
     private var fakeSignaturesForStaking = 0
 
     val fee: Long
-    get() = baseFee + ((buildFakeTx().size + 32) * feePerByte)
+    get() {
+        val tokensCount = outputs
+            .map {
+                it.tokens
+                    .map { tokenOutput ->
+                        tokenOutput.tokens.map { token ->
+                            token.tokenName
+                        }
+                    }
+                    .flatten()
+            }
+            .flatten()
+            .toSet()
+            .count()
+        return baseFee + ((buildFakeTx().size + (tokensCount * 40 * outputs.size)) * feePerByte)
+    }
 
     val hash: ByteArray
     get() {
