@@ -67,7 +67,7 @@ class CardanoTransaction(
             .flatten()
             .toSet()
             .count()
-        return baseFee + ((buildFakeTx().size + (tokensCount * 40 * outputs.size)) * feePerByte)
+        return baseFee + ((buildFakeTx().size + 32 + (tokensCount * 40 * outputs.size)) * feePerByte)
     }
 
     val hash: ByteArray
