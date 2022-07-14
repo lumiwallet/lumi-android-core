@@ -63,7 +63,7 @@ fun <T: Fragment> T.applyArguments(f: Bundle.() -> Unit): T = apply {
 
 fun Context.copyTextToClipboard(text: String): Boolean =
     (this.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager)?.let {
-        it.primaryClip = ClipData.newPlainText("", text)
+        it.setPrimaryClip(ClipData.newPlainText("", text))
         true
     } ?: false
 

@@ -1,6 +1,5 @@
 package com.lumiwallet.android.core.utils.btc_based.core
 
-import com.lumiwallet.android.core.bitcoin.params.MainNetParams
 import com.lumiwallet.android.core.doge.params.DogeNetParams
 
 abstract class NetworkParameters {
@@ -9,11 +8,13 @@ abstract class NetworkParameters {
 
         const val ID_DOGENET = "org.dogecoin.production"
         const val ID_MAINNET = "org.bitcoin.production"
+        const val ID_LITECOIN_MAINNET = "org.litecoin.production"
 
         /** Returns the network parameters for the given string ID or NULL if not recognized.  */
         fun fromID(id: String): NetworkParameters? = when(id) {
             ID_DOGENET -> DogeNetParams
-            ID_MAINNET -> MainNetParams
+            ID_MAINNET -> com.lumiwallet.android.core.bitcoin.params.MainNetParams
+            ID_LITECOIN_MAINNET -> com.lumiwallet.android.core.litecoin.params.MainNetParams
             else -> null
         }
     }
