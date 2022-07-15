@@ -1,7 +1,7 @@
 package com.lumiwallet.android.core.litecoin.transaction
 
-import com.lumiwallet.android.core.litecoin.core.SegwitAddress
-import com.lumiwallet.android.core.litecoin.params.MainNetParams
+import com.lumiwallet.android.core.litecoin.core.LtcSegwitAddress
+import com.lumiwallet.android.core.litecoin.params.LitecoinMainNetParams
 import com.lumiwallet.android.core.litecoin.script.ScriptType
 import com.lumiwallet.android.core.utils.Base58
 import com.lumiwallet.android.core.utils.btc_based.ByteBuffer
@@ -61,7 +61,7 @@ internal class Output(
 
     private fun validateOutputData(satoshi: Long, destination: String) {
         validateDestinationAddress(destination)
-        validateAmount(satoshi);
+        validateAmount(satoshi)
     }
 
     private fun validateAmount(satoshi: Long) {
@@ -72,9 +72,9 @@ internal class Output(
         require(!isEmpty(destination)) { ErrorMessages.OUTPUT_ADDRESS_EMPTY }
 
         require(
-            destination.startsWith(MainNetParams.segwitAddressHrp!!) ||
-                    Base58.decodeChecked(destination)[0] == MainNetParams.addressHeader.toByte() ||
-                    Base58.decodeChecked(destination)[0] == MainNetParams.p2SHHeader.toByte()
+            destination.startsWith(LitecoinMainNetParams.segwitAddressHrp) ||
+                    Base58.decodeChecked(destination)[0] == LitecoinMainNetParams.addressHeader.toByte() ||
+                    Base58.decodeChecked(destination)[0] == LitecoinMainNetParams.p2SHHeader.toByte()
         ) { ErrorMessages.OUTPUT_ADDRESS_WRONG_PREFIX }
     }
 
@@ -84,7 +84,7 @@ internal class Output(
     private fun decodeAndValidateAddress(address: String, addressType: ScriptType): ByteArray =
         when (addressType) {
             ScriptType.P2WPKH -> {
-                SegwitAddress.fromBech32(MainNetParams, address).witnessProgram
+                LtcSegwitAddress.fromBech32(LitecoinMainNetParams, address).witnessProgram
             }
             ScriptType.P2PKH, ScriptType.P2SH -> {
                 require(isBase58(destination)) { ErrorMessages.OUTPUT_ADDRESS_NOT_BASE_58 }

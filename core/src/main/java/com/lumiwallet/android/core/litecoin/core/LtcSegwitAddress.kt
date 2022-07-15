@@ -12,7 +12,7 @@ import com.lumiwallet.android.core.utils.btc_based.core.AddressFormatException
 import com.lumiwallet.android.core.utils.btc_based.core.NetworkParameters
 import kotlin.experimental.and
 
-class SegwitAddress @Throws(AddressFormatException::class)
+class LtcSegwitAddress @Throws(AddressFormatException::class)
 private constructor(
     params: NetworkParameters,
     data: ByteArray
@@ -36,22 +36,22 @@ private constructor(
         fun fromBech32(
             params: NetworkParameters,
             bech32address: String
-        ): SegwitAddress {
+        ): LtcSegwitAddress {
             val bech32data = Bech32.decode(bech32address)
             if (bech32data.hrp != params.segwitAddressHrp)
                 throw IllegalArgumentException("Network params hrp is: ${params.segwitAddressHrp}.\nAddress hrp is: ${bech32data.hrp}")
-            return SegwitAddress(params, bech32data.data)
+            return LtcSegwitAddress(params, bech32data.data)
         }
 
         fun fromHash(
             params: NetworkParameters,
             hash: ByteArray
-        ): SegwitAddress = SegwitAddress(params, 0, hash)
+        ): LtcSegwitAddress = LtcSegwitAddress(params, 0, hash)
 
         fun fromKey(
             params: NetworkParameters,
             key: ECKey
-        ): SegwitAddress {
+        ): LtcSegwitAddress {
             checkArgument(key.isCompressed, "only compressed keys allowed")
             return fromHash(params, key.pubKeyHash)
         }

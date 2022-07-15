@@ -6,8 +6,8 @@ import com.lumiwallet.android.core.litecoin.constant.OpCodes.DUP
 import com.lumiwallet.android.core.litecoin.constant.OpCodes.EQUAL
 import com.lumiwallet.android.core.litecoin.constant.OpCodes.EQUALVERIFY
 import com.lumiwallet.android.core.litecoin.constant.OpCodes.HASH160
-import com.lumiwallet.android.core.litecoin.core.SegwitAddress
-import com.lumiwallet.android.core.litecoin.params.MainNetParams
+import com.lumiwallet.android.core.litecoin.core.LtcSegwitAddress
+import com.lumiwallet.android.core.litecoin.params.LitecoinMainNetParams
 import com.lumiwallet.android.core.utils.Base58
 import com.lumiwallet.android.core.utils.btc_based.ErrorMessages
 import com.lumiwallet.android.core.utils.safeToByteArray
@@ -26,15 +26,15 @@ enum class ScriptType(
     companion object {
 
         fun fromAddressPrefix(address: String) = when {
-            address.startsWith(MainNetParams.segwitAddressHrp!!) -> {
-                val segwitAddress = SegwitAddress.fromBech32(MainNetParams, address)
-                if (segwitAddress.witnessProgram.size == SegwitAddress.WITNESS_PROGRAM_LENGTH_PKH)
+            address.startsWith(LitecoinMainNetParams.segwitAddressHrp) -> {
+                val segwitAddress = LtcSegwitAddress.fromBech32(LitecoinMainNetParams, address)
+                if (segwitAddress.witnessProgram.size == LtcSegwitAddress.WITNESS_PROGRAM_LENGTH_PKH)
                     P2WPKH
                 else
                     throw IllegalArgumentException(ErrorMessages.INPUT_LOCK_WRONG_FORMAT)
             }
-            Base58.decodeChecked(address).first() == MainNetParams.addressHeader.toByte() -> P2PKH
-            Base58.decodeChecked(address).first() == MainNetParams.p2SHHeader.toByte() -> P2SH
+            Base58.decodeChecked(address).first() == LitecoinMainNetParams.addressHeader.toByte() -> P2PKH
+            Base58.decodeChecked(address).first() == LitecoinMainNetParams.p2SHHeader.toByte() -> P2SH
             else ->
                 throw IllegalArgumentException(ErrorMessages.INPUT_LOCK_WRONG_FORMAT)
         }

@@ -14,7 +14,7 @@ abstract class NetworkParameters {
         fun fromID(id: String): NetworkParameters? = when(id) {
             ID_DOGENET -> DogeNetParams
             ID_MAINNET -> com.lumiwallet.android.core.bitcoin.params.MainNetParams
-            ID_LITECOIN_MAINNET -> com.lumiwallet.android.core.litecoin.params.MainNetParams
+            ID_LITECOIN_MAINNET -> com.lumiwallet.android.core.litecoin.params.LitecoinMainNetParams
             else -> null
         }
     }

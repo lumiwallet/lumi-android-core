@@ -9,7 +9,7 @@ import com.lumiwallet.android.core.utils.btc_based.core.Address
 import com.lumiwallet.android.core.utils.btc_based.core.AddressFormatException
 import com.lumiwallet.android.core.utils.btc_based.core.NetworkParameters
 
-class LegacyAddress @Throws(AddressFormatException::class) private constructor(
+class LtcLegacyAddress @Throws(AddressFormatException::class) private constructor(
     params: NetworkParameters,
     val p2sh: Boolean,
     hash160: ByteArray
@@ -18,11 +18,11 @@ class LegacyAddress @Throws(AddressFormatException::class) private constructor(
     companion object {
 
         @Throws(AddressFormatException::class)
-        fun fromPubKeyHash(params: NetworkParameters, hash160: ByteArray): LegacyAddress {
-            return LegacyAddress(params, false, hash160)
+        fun fromPubKeyHash(params: NetworkParameters, hash160: ByteArray): LtcLegacyAddress {
+            return LtcLegacyAddress(params, false, hash160)
         }
 
-        fun fromKey(params: NetworkParameters, key: ECKey): LegacyAddress {
+        fun fromKey(params: NetworkParameters, key: ECKey): LtcLegacyAddress {
             return fromPubKeyHash(params, key.pubKeyHash)
         }
     }
@@ -51,7 +51,7 @@ class LegacyAddress @Throws(AddressFormatException::class) private constructor(
             return true
         if (o == null || javaClass != o.javaClass)
             return false
-        val other = o as LegacyAddress?
+        val other = o as LtcLegacyAddress?
         return super.equals(other) && this.p2sh == other.p2sh
     }
 
@@ -60,6 +60,6 @@ class LegacyAddress @Throws(AddressFormatException::class) private constructor(
     override fun toString(): String = toBase58()
 
     @Throws(CloneNotSupportedException::class)
-    override fun clone(): LegacyAddress = super.clone() as LegacyAddress
+    override fun clone(): LtcLegacyAddress = super.clone() as LtcLegacyAddress
 
 }
