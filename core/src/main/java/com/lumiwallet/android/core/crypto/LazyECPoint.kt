@@ -30,7 +30,7 @@ class LazyECPoint {
         get() = if (bits != null)
             Arrays.copyOf(bits, bits.size)
         else
-            get().encoded
+            get().getEncoded(true)
 
     val isInfinity: Boolean
         get() = get().isInfinity
@@ -47,8 +47,11 @@ class LazyECPoint {
     val isCompressed: Boolean
         get() = if (bits != null)
             bits[0].toInt() == 2 || bits[0].toInt() == 3
-        else
-            get().isCompressed
+        else {
+            get()
+            true//get().isCompressed
+        }
+
 
     val isValid: Boolean
         get() = get().isValid
