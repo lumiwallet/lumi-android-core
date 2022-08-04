@@ -29,7 +29,8 @@ class CardanoTransaction(
         var type: Type,
         var payload: ByteArray,
         var amount: Long,
-        val tokens: List<TokenOutput>
+        val tokens: List<TokenOutput>,
+        val address: String
     ) {
 
         enum class Type {
