@@ -15,9 +15,15 @@ class CardanoTransaction(
     class Input (
         var hash: ByteArray,
         var outputIndex: Long,
-        var amount: Long,
+        var amount: List<Amount>,
         var address: String
-    )
+    ) {
+
+        class Amount (
+            val unit: String,
+            val quantity: Long
+        )
+    }
 
     class Output (
         var type: Type,
@@ -289,14 +295,14 @@ class CardanoTransaction(
     /**
      * moves all available funds to the output with [Output.type] == [Output.Type.CHANGE]
      * */
-    fun calculateChangeAmount() {
+    fun calculateChangeAmount(unit: String) {
         val changeOutputs = outputs.filter { it.type == Output.Type.CHANGE }
         when {
             changeOutputs.size > 1 -> throw IllegalStateException()
             changeOutputs.isEmpty() -> return
             else -> {
                 changeOutputs.first().let { changeOutput ->
-                    val inputsAmount = inputs.sumByLong { input -> input.amount }
+                    val inputsAmount = inputs.sumByLong { input -> input.amount.find { it.unit == unit }!!.quantity }
                     val outputsAmount = outputs
                         .filter { output -> output.type == Output.Type.ORDINARY }
                         .sumByLong { output -> output.amount }
