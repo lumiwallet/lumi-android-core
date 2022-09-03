@@ -303,7 +303,9 @@ class CardanoTransaction(
             changeOutputs.isEmpty() -> return
             else -> {
                 changeOutputs.first().let { changeOutput ->
-                    val inputsAmount = inputs.sumByLong { input -> input.amount.find { it.unit == unit }!!.quantity }
+                    val inputsAmount = inputs.sumByLong { input ->
+                        input.amount.find { it.unit == unit }?.quantity ?: 0L
+                    }
                     val outputsAmount = outputs
                         .filter { output -> output.type == Output.Type.ORDINARY }
                         .sumByLong { output -> output.amount }
